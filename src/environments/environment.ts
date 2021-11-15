@@ -1,13 +1,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyDdT3whcf2D8_dTNCmK-2HanaNjZzUyAfU',
-    authDomain: 'role-character.firebaseapp.com',
-    databaseURL: 'https://role-character-default-rtdb.europe-west1.firebasedatabase.app',
-    projectId: 'role-character',
-    storageBucket: 'role-character.appspot.com',
-    messagingSenderId: '504584160891',
-    appId: '1:504584160891:web:e0ffce268d8f58e66e04de',
-    measurementId: 'G-HN9M7K15K7'
+    apiKey: "AIzaSyCiVIt1UtvMFavS7BTYScnpzH7oTKHwebE",
+    authDomain: "time-sheet-9b403.firebaseapp.com",
+    projectId: "time-sheet-9b403",
+    storageBucket: "time-sheet-9b403.appspot.com",
+    messagingSenderId: "203056173994",
+    appId: "1:203056173994:web:ab20facf931d669dc511d3",
+    measurementId: "G-1GHR150K70"
   }
 };
