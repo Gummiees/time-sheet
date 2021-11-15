@@ -1,0 +1,8 @@
+app-character > *:not(router-outlet):not(nav):not(.turn-buttons):not(.divider),
+app-character > *:not(router-outlet):not(nav):not(.turn-buttons):not(.divider) > * {
+  @apply flex-grow flex flex-col;
+}
+
+app-character > *:not(router-outlet):not(nav):not(.turn-buttons):not(.divider) {
+  @apply mb-16;
+}

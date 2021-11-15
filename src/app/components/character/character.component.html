@@ -1,0 +1,81 @@
+<nav mat-tab-nav-bar>
+  <a
+    mat-tab-link
+    *ngFor="let tabItem of tabs"
+    [routerLink]="tabItem.link"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [active]="rla.isActive"
+  >
+    <mat-icon>{{ tabItem.icon }}</mat-icon>
+    <span class="ml-2">{{ tabItem.label }}</span>
+  </a>
+</nav>
+<router-outlet></router-outlet>
+<div
+  class="
+    w-full
+    fixed
+    bottom-0
+    p-4
+    turn-buttons
+    flex flex-col
+    sm:flex-row
+    items-center
+    justify-between
+    bg-white
+    border-t border-gray-200
+  "
+>
+  <ng-container *ngIf="inCombat">
+    <button
+      mat-stroked-button
+      color="primary"
+      class="w-full sm:w-auto"
+      type="button"
+      [disabled]="loadersService.turnLoading"
+      (click)="previousTurn()"
+    >
+      <span>Previous phase</span>
+    </button>
+    <span class="mt-2 sm:mt-0">
+      Current phase: <b>{{ currentPhase }}</b>
+    </span>
+    <div class="flex flex-col sm:flex-row items-center justify-end">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        class="w-full sm:w-auto mt-2 sm:mt-0"
+        [disabled]="loadersService.turnLoading"
+        (click)="nextTurn()"
+      >
+        <span>Next phase</span>
+      </button>
+      <button
+        mat-raised-button
+        color="warn"
+        type="button"
+        class="w-full sm:w-auto mt-2 sm:mt-0 ml-0 sm:ml-4"
+        [disabled]="loadersService.turnLoading"
+        (click)="toggleCombat()"
+      >
+        <span>End combat</span>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!inCombat">
+    <div class="w-full flex items-center justify-center">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        class="w-full sm:w-auto mt-2 sm:mt-0 ml-0 sm:ml-4"
+        [disabled]="loadersService.turnLoading"
+        (click)="toggleCombat()"
+      >
+        <span>Start combat</span>
+      </button>
+    </div>
+  </ng-container>
+</div>

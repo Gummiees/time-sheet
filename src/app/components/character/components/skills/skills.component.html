@@ -1,0 +1,101 @@
+<div class="flex flex-col flex-grow items-start bg-white p-6 w-full">
+  <div class="flex justify-between items-center w-full mb-2">
+    <h1 class="mb-0">Skills</h1>
+    <button
+      type="button"
+      mat-mini-fab
+      aria-label="Create"
+      color="primary"
+      class="shadow"
+      matTooltip="Create new"
+      matTooltipPosition="below"
+      [disabled]="buttonsDisabled()"
+      (click)="onCreateSkill()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <p-table
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    responsiveLayout="scroll"
+    dataKey="id"
+    class="w-full"
+    [value]="skills"
+    [loading]="loadersService.skillsLoading"
+    [resizableColumns]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name" pResizableColumn>
+          Name <p-sortIcon field="name"> </p-sortIcon>
+          <p-columnFilter type="text" field="name"></p-columnFilter>
+        </th>
+        <th pResizableColumn>
+          <div class="w-full flex flex-col items-center justify-center">
+            Active
+            <p-columnFilter type="boolean" field="active"></p-columnFilter>
+          </div>
+        </th>
+        <th class="text-center" pResizableColumn>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-skill>
+      <tr>
+        <td>
+          {{ skill.name }}
+        </td>
+        <td class="text-center">
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="skill.active"
+            (change)="onActiveChanges(skill)"
+          >
+          </mat-slide-toggle>
+        </td>
+        <td>
+          <div class="w-full flex items-center justify-evenly">
+            <button
+              type="button"
+              mat-icon-button
+              aria-label="View"
+              class="text-green-500 hover:bg-green-100"
+              matTooltip="View"
+              matTooltipPosition="below"
+              [disabled]="buttonsDisabled()"
+              (click)="onView(skill)"
+            >
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              class="hover:bg-indigo-100"
+              aria-label="Edit"
+              matTooltip="Edit"
+              matTooltipPosition="below"
+              [disabled]="buttonsDisabled()"
+              (click)="onEdit(skill)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              color="warn"
+              aria-label="Delete"
+              class="hover:bg-red-100"
+              matTooltip="Delete"
+              matTooltipPosition="below"
+              [disabled]="buttonsDisabled()"
+              (click)="onDelete(skill)"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

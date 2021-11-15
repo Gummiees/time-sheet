@@ -1,0 +1,59 @@
+<mat-dialog-content>
+  <form
+    class="flex w-full flex-col items-start justify-center"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Category</mat-label>
+      <input matInput required [matAutocomplete]="auto" [formControl]="categoryControl" />
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let category of filteredOptions | async" [value]="category">
+          <div class="p-2 flex">
+            <div
+              class="p-1.5 font-bold rounded-md leading-4"
+              [ngStyle]="{ 'background-color': category.color + '40', color: category.color }"
+            >
+              {{ category.name }}
+            </div>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="categoryControl.invalid"> You must enter a category </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" required [formControl]="nameControl" />
+      <mat-error *ngIf="nameControl.invalid"> You must enter a name </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Quantity</mat-label>
+      <input matInput type="number" required [formControl]="quantityControl" min="0" />
+      <mat-error *ngIf="quantityControl.invalid"> You must enter a quantity </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Weight (unit)</mat-label>
+      <input matInput type="number" required [formControl]="weightControl" min="0" />
+      <mat-error *ngIf="weightControl.invalid"> You must enter a weight </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label> Bought for</mat-label>
+      <input matInput type="number" required [formControl]="costControl" min="0" />
+      <mat-hint>
+        Gold paid to buy the item. Set to 0 if it was obtained though other methods.
+      </mat-hint>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="w-full flex items-center justify-between">
+  <button mat-stroked-button type="button" color="primary" [mat-dialog-close]="null">Cancel</button>
+  <button
+    mat-flat-button
+    type="button"
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="onSubmit()"
+  >
+    Create
+  </button>
+</mat-dialog-actions>

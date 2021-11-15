@@ -1,0 +1,215 @@
+{
+  "categories": [
+    {
+      "id": "11111",
+      "name": "Espada",
+      "color": "#ff5151"
+    },
+    {
+      "id": "22222",
+      "name": "Comida",
+      "color": "#0000ff"
+    },
+    {
+      "id": "33333",
+      "name": "Dinero",
+      "color": "#7a00ff"
+    }
+  ],
+  "characters": [
+    {
+      "id": "44444",
+      "name": "Test Testing",
+      "inventory": [
+        {
+          "id": "55555",
+          "name": "Espada roja",
+          "quantity": 1,
+          "weight": 1,
+          "price": 1,
+          "category": "Espada"
+        },
+        {
+          "id": "66666",
+          "name": "Manzana",
+          "quantity": 2,
+          "weight": 2,
+          "price": 2,
+          "category": "Comida"
+        },
+        {
+          "id": "77777",
+          "name": "Moneda",
+          "quantity": 4,
+          "weight": 4,
+          "price": 4,
+          "category": "Dinero"
+        }
+      ],
+      "skills": [
+        {
+          "skillName": "HP",
+          "percentage": 60,
+          "result": null
+        },
+        {
+          "skillName": "NAY",
+          "percentage": 60,
+          "result": null
+        },
+        {
+          "skillName": "SAN",
+          "percentage": 60,
+          "result": null
+        },
+        {
+          "skillName": "STR",
+          "percentage": 50,
+          "result": null
+        },
+        {
+          "skillName": "DEX",
+          "percentage": 40,
+          "result": null
+        },
+        {
+          "skillName": "ACC",
+          "percentage": 60,
+          "result": null
+        },
+        {
+          "skillName": "SPD",
+          "percentage": 70,
+          "result": null
+        },
+        {
+          "skillName": "INT",
+          "percentage": 30,
+          "result": null
+        },
+        {
+          "skillName": "FAITH",
+          "percentage": 40,
+          "result": null
+        },
+        {
+          "skillName": "DEF",
+          "percentage": 40,
+          "result": null
+        },
+        {
+          "skillName": "RES",
+          "percentage": 30,
+          "result": null
+        },
+        {
+          "skillName": "LUCK",
+          "percentage": 50,
+          "result": null
+        },
+        {
+          "skillName": "CHARM",
+          "percentage": 60,
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "88888",
+      "name": "Test2 Testing2",
+      "inventory": [
+        {
+          "id": "99999",
+          "name": "Espada roja",
+          "quantity": 1,
+          "weight": 1,
+          "price": 1,
+          "category": "Espada"
+        },
+        {
+          "id": "00000",
+          "name": "Manzana",
+          "quantity": 2,
+          "weight": 2,
+          "price": 2,
+          "category": "Comida"
+        },
+        {
+          "id": "01111",
+          "name": "Moneda",
+          "quantity": 4,
+          "weight": 4,
+          "price": 4,
+          "category": "Dinero"
+        }
+      ],
+      "skills": [
+        {
+          "skillName": "HP",
+          "percentage": 60,
+          "result": null
+        },
+        {
+          "skillName": "NAY",
+          "percentage": 60,
+          "result": null
+        },
+        {
+          "skillName": "SAN",
+          "percentage": 60,
+          "result": null
+        },
+        {
+          "skillName": "STR",
+          "percentage": 50,
+          "result": null
+        },
+        {
+          "skillName": "DEX",
+          "percentage": 40,
+          "result": null
+        },
+        {
+          "skillName": "ACC",
+          "percentage": 60,
+          "result": null
+        },
+        {
+          "skillName": "SPD",
+          "percentage": 70,
+          "result": null
+        },
+        {
+          "skillName": "INT",
+          "percentage": 30,
+          "result": null
+        },
+        {
+          "skillName": "FAITH",
+          "percentage": 40,
+          "result": null
+        },
+        {
+          "skillName": "DEF",
+          "percentage": 40,
+          "result": null
+        },
+        {
+          "skillName": "RES",
+          "percentage": 30,
+          "result": null
+        },
+        {
+          "skillName": "LUCK",
+          "percentage": 50,
+          "result": null
+        },
+        {
+          "skillName": "CHARM",
+          "percentage": 60,
+          "result": null
+        }
+      ]
+    }
+  ]
+}

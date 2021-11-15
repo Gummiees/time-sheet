@@ -1,0 +1,51 @@
+<div class="flex items-center justify-center w-full">
+  <div
+    class="flex flex-col items-start justify-center shadow-lg bg-white rounded-lg p-12 m-6 w-full"
+  >
+    <div class="w-full">
+      <h1 class="text-center">Create new character</h1>
+      <p
+        >If you're not sure, do not worry too much about it, you will be able to update the
+        information afterwards too!</p
+      >
+      <form
+        class="flex w-full flex-col items-start justify-center"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+      >
+        <mat-form-field class="w-full" appearance="standard">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            type="text"
+            autocomplete="nickname"
+            required
+            [formControl]="nameControl"
+          />
+          <mat-error *ngIf="nameControl.invalid"> You must enter a valid name </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="standard">
+          <mat-label>Backstory</mat-label>
+          <textarea cdkTextareaAutosize matInput [formControl]="backstoryControl"></textarea>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="standard">
+          <mat-label>Personality</mat-label>
+          <textarea cdkTextareaAutosize matInput [formControl]="personalityControl"></textarea>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="standard">
+          <mat-label>Appeareance</mat-label>
+          <textarea cdkTextareaAutosize matInput [formControl]="appearanceControl"></textarea>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="w-full"
+          [disabled]="loadersService.createCharacterLoading"
+        >
+          <span>Create character</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

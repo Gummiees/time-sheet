@@ -1,0 +1,179 @@
+<div class="p-6 w-full shadow-md bg-white">
+  <div class="mb-4 flex items-center justify-between">
+    <h1 class="mb-2">Statistics</h1>
+    <div class="flex items-center">
+      <button
+        type="button"
+        mat-mini-fab
+        aria-label="Add"
+        color="primary"
+        class="shadow"
+        matTooltip="Add new"
+        matTooltipPosition="below"
+        [disabled]="buttonsDisabled()"
+        (click)="addStat()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <p-table
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    responsiveLayout="scroll"
+    dataKey="id"
+    [value]="statistics"
+    [loading]="loadersService.statisticsLoading"
+    [resizableColumns]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="abv" pResizableColumn>
+          Name <p-sortIcon field="abv"> </p-sortIcon>
+          <p-columnFilter type="text" field="name"></p-columnFilter>
+        </th>
+        <th pSortableColumn="total" pResizableColumn>
+          Total <p-sortIcon field="total"> </p-sortIcon>
+        </th>
+        <th pSortableColumn="current" pResizableColumn>
+          Current <p-sortIcon field="current"> </p-sortIcon>
+        </th>
+        <th pResizableColumn>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <mat-form-field class="w-full" appearance="standard">
+                <input
+                  matInput
+                  type="number"
+                  required
+                  [(ngModel)]="item.abv"
+                  (focus)="onFocus(item)"
+                />
+              </mat-form-field>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ item.abv }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <mat-form-field class="w-full" appearance="standard">
+                <input
+                  matInput
+                  type="number"
+                  [min]="item.current"
+                  required
+                  [(ngModel)]="item.total"
+                  (focus)="onFocus(item)"
+                />
+              </mat-form-field>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ item.total }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <mat-form-field class="w-full" appearance="standard">
+                <input
+                  matInput
+                  type="number"
+                  required
+                  min="0"
+                  [max]="item.total"
+                  [(ngModel)]="item.current"
+                  (focus)="onFocus(item)"
+                />
+              </mat-form-field>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ item.current }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div class="w-full flex items-center justify-evenly">
+            <button
+            *ngIf="isEditing(item)"
+              type="button"
+              mat-icon-button
+              color="primary"
+              aria-label="Save"
+              class="hover:bg-indigo-100 micro-button"
+              matTooltip="Save"
+              matTooltipPosition="below"
+              [disabled]="!canSave(item)"
+              (click)="onSave(item)"
+            >
+              <mat-icon>save</mat-icon>
+            </button>
+            <button
+              *ngIf="isEditing(item)"
+              type="button"
+              mat-icon-button
+              color="warn"
+              aria-label="Undo"
+              class="hover:bg-red-100 micro-button"
+              matTooltip="Undo"
+              matTooltipPosition="below"
+              (click)="onUndo(item)"
+            >
+              <mat-icon>undo</mat-icon>
+            </button>
+            <button
+              *ngIf="!isEditing(item)"
+              type="button"
+              mat-icon-button
+              color="primary"
+              aria-label="Details"
+              class="text-green-500 hover:bg-green-100"
+              matTooltip="Details"
+              matTooltipPosition="below"
+              [disabled]="buttonsDisabled()"
+              (click)="statDetails(item)"
+            >
+              <mat-icon>loupe</mat-icon>
+            </button>
+            <button
+              *ngIf="!isEditing(item)"
+              type="button"
+              mat-icon-button
+              color="primary"
+              aria-label="Reset"
+              class="hover:bg-indigo-100 micro-button"
+              matTooltip="Reset"
+              matTooltipPosition="below"
+              [disabled]="buttonsDisabled()"
+              (click)="onReset(item)"
+            >
+              <mat-icon>restart_alt</mat-icon>
+            </button>
+            <button
+              *ngIf="!isEditing(item)"
+              type="button"
+              mat-icon-button
+              color="warn"
+              aria-label="Delete"
+              class="hover:bg-red-100 micro-button"
+              matTooltip="Delete"
+              matTooltipPosition="below"
+              [disabled]="buttonsDisabled()"
+              (click)="onDelete(item)"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

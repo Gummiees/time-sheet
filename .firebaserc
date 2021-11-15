@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "role-character"
+  },
+  "targets": {
+    "role-character": {
+      "hosting": {
+        "role-character": [
+          "role-character"
+        ]
+      }
+    }
+  }
+}

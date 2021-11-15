@@ -1,0 +1,152 @@
+{
+  // "powermode.enabled": true,
+  // "powermode.enableShake": true,
+  "powermode.shakeIntensity": 10,
+  "powermode.presets": "clippy", // powermode.presets.
+  "emmet.triggerExpansionOnTab": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+  "files.autoSave": "off",
+  "editor.wordWrapColumn": 150,
+  "workbench.colorTheme": "One Dark Pro",
+  "terminal.integrated.rendererType": "experimentalWebgl",
+  "editor.rulers": [150],
+  "html.format.enable": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "breadcrumbs.enabled": true,
+  "editor.formatOnSave": true,
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "prettier.printWidth": 150,
+  "prettier.singleQuote": true,
+  "sonarlint.ls.javaHome": "C:\\DESARROLLO_ARCHIVADO\\JDK\\jdk1.8.0_144",
+  "sonarlint.connectedMode.connections.sonarqube": [
+    {
+      // "serverId": "3digits",
+      "serverUrl": "https://sonar.3digits.es",
+      // "organizationKey": "vscode-sonarlint",
+      "token": "1c4ade15f03df44f0c8fb09c689f8ee84a64c8e6"
+    }
+  ],
+  "todo-tree.highlights.customHighlight": {
+    "TODO": {
+      "foreground": "white",
+      "background": "#00b5b2",
+      "rulerColour": "#00b5b2",
+      "iconColour": "#00b5b2",
+      "rulerLane": "full",
+      "type": "text",
+      "icon": "issue-closed"
+    },
+    "FIXME": {
+      "foreground": "white",
+      "background": "red",
+      "rulerColour": "red",
+      "iconColour": "red",
+      "rulerLane": "full",
+      "type": "text",
+      "icon": "stop"
+    },
+    "BOOKMARK": {
+      "foreground": "white",
+      "background": "white",
+      "rulerColour": "white",
+      "iconColour": "white",
+      "rulerLane": "full",
+      "type": "text",
+      "icon": "eye"
+    },
+    "DEPRECATED": {
+      "foreground": "black",
+      "background": "yellow",
+      "rulerColour": "black",
+      "iconColour": "black",
+      "rulerLane": "full",
+      "type": "text",
+      "icon": "alert"
+    }
+  },
+  "todo-tree.highlights.defaultHighlight": {
+    "opacity": 50
+  },
+  "todo-tree.regex.regex": "((//|#|<!--|--*|;|/\\*|/\\**|\\*)\\s*($TAGS)|^\\s*- \\[ \\])",
+  "todo-tree.filtering.excludeGlobs": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.vscode/**",
+    "**/.github/**",
+    "**/_output/**",
+    "**/documentation/**",
+    "**/e2e/**",
+    "**/*.min.*",
+    "**/*.map",
+    "**/.next/**",
+    "**/assets/**"
+  ],
+  "todo-tree.general.tags": ["TODO", "FIXME", "BOOKMARK", "DEPRECATED"],
+  "editor.suggestSelection": "first",
+  "liveServer.settings.donotVerifyTags": true,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "explorer.confirmDragAndDrop": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.fontFamily": "'Cascadia Code', Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "todo-tree.tree.showScanModeButton": false,
+  "extensions.ignoreRecommendations": false,
+  "git.autofetch": true,
+  "workbench.startupEditor": "newUntitledFile",
+  "settingsSync.ignoredSettings": ["-sonarlint.ls.javaHome"],
+  "explorer.confirmDelete": false,
+  "workbench.editorAssociations": {
+    "*.png": "luna.editor",
+    "*.ipynb": "jupyter.notebook.ipynb"
+  },
+  "settingsSync.ignoredExtensions": [
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "ms-vscode-remote.remote-wsl",
+    "ms-vscode-remote.remote-ssh-edit",
+    "ms-vscode-remote.remote-ssh",
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker",
+    "icrawl.discord-vscode",
+    "ms-dotnettools.csharp",
+    "adrianwilczynski.csharp-to-typescript",
+    "johnpapa.vscode-peacock"
+  ],
+  "editor.inlineSuggest.enabled": true,
+  "security.workspace.trust.untrustedFiles": "newWindow",
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": true,
+    "markdown": true
+  },
+  "zenMode.fullScreen": false,
+  "zenMode.hideLineNumbers": false,
+  "zenMode.hideTabs": false,
+  "thunder-client.codeSnippetLanguage": "cs-httpclient",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
+}

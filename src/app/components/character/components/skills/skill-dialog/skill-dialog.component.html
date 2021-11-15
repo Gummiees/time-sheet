@@ -1,0 +1,181 @@
+<mat-dialog-content>
+  <form class="w-full" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div *ngIf="step === 0" class="flex w-full flex-col items-start justify-center">
+      <div class="flex w-full items-center">
+        <mat-form-field class="flex-grow pr-4 sm:pr-8" appearance="standard">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" [formControl]="nameControl" required />
+          <mat-error *ngIf="nameControl.invalid"> You must enter a name </mat-error>
+        </mat-form-field>
+        <mat-slide-toggle color="primary" [formControl]="activeControl"> Active </mat-slide-toggle>
+      </div>
+      <mat-form-field class="w-full" appearance="standard">
+        <mat-label>Description</mat-label>
+        <textarea cdkTextareaAutosize matInput [formControl]="descriptionControl"></textarea>
+      </mat-form-field>
+      <div class="flex w-full items-center flex-col sm:flex-row">
+        <mat-slide-toggle
+          color="primary"
+          class="w-full sm:w-1/3"
+          [formControl]="doesRollDiceControl"
+          (change)="onDoesRollDiceChanges()"
+        >
+          Does it roll a dice?
+        </mat-slide-toggle>
+        <ng-container *ngIf="doesRollDiceControl.value">
+          <mat-form-field
+            class="sm:pl-8 flex-grow w-full sm:w-1/3 pb-4 sm:pb-0"
+            appearance="standard"
+          >
+            <mat-label>Dices to roll</mat-label>
+            <mat-select [formControl]="dicesControl" multiple>
+              <mat-option *ngFor="let dice of data.dices" [value]="dice.id">
+                {{ dice | dicePipe }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>
+              A multiplier dice example is d10 * 10, which means it is a d10 by tens (10, 20, 30,
+              ...)
+            </mat-hint>
+          </mat-form-field>
+          <mat-form-field
+            class="sm:pl-8 flex-grow w-full sm:w-1/3 pb-4 sm:pb-0"
+            appearance="standard"
+          >
+            <mat-label>Phase to roll a dice on</mat-label>
+            <mat-select [formControl]="whenRollDiceControl">
+              <mat-option *ngFor="let turn of globalService.turns" [value]="turn">
+                {{ turn }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>
+              The dices will be rolled before the selected phase unless the name explicitly says
+              otherwise.
+            </mat-hint>
+          </mat-form-field>
+        </ng-container>
+      </div>
+      <div class="flex w-full items-center flex-col sm:flex-row">
+        <mat-slide-toggle
+          color="primary"
+          class="w-full sm:w-auto"
+          [formControl]="turnBasedControl"
+          (change)="onTurnBasedChanges()"
+        >
+          Is it turn based?
+        </mat-slide-toggle>
+        <mat-form-field
+          *ngIf="turnBasedControl.value"
+          class="sm:pl-8 flex-grow w-full sm:w-auto"
+          appearance="standard"
+        >
+          <mat-label>Turns left</mat-label>
+          <input matInput type="number" [formControl]="turnsLeftControl" min="0" />
+          <mat-error *ngIf="turnsLeftControl.invalid"> Turns left must be more than 0 </mat-error>
+          <mat-hint> Turns for the skill to be active before turned off. </mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center w-full">
+        <mat-form-field class="w-full sm:w-1/2 sm:pr-2" appearance="standard">
+          <mat-label>Level</mat-label>
+          <input matInput type="number" [formControl]="levelControl" min="0" />
+          <mat-error *ngIf="levelControl.invalid"> Level must be more than 0 </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full sm:w-1/2 sm:pl-2" appearance="standard">
+          <mat-label>Caster name</mat-label>
+          <input matInput type="text" [formControl]="caster_nameControl" />
+          <mat-hint>
+            In case you want to remember the name of the character who casted the spell so you can
+            ask them more information if necessary.
+          </mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="step === 1" class="flex w-full flex-col items-start justify-center">
+    <mat-form-field class="w-full mb-4" appearance="standard">
+      <mat-label>Statistics</mat-label>
+      <mat-select [formControl]="statsControl" multiple>
+        <mat-option *ngFor="let stat of data.statistics" [value]="stat">
+          {{ stat.name }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>
+        The dices will be rolled before the selected phase unless the name explicitly says
+        otherwise.
+      </mat-hint>
+    </mat-form-field>
+
+    <p-table
+      class="w-full"
+      styleClass=" p-datatable-sm p-datatable-gridlines"
+      responsiveLayout="scroll"
+      dataKey="id"
+      [value]="tableStats"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th> Name </th>
+          <th> Value </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>
+            {{ getStatName(item) }}
+          </td>
+          <td pEditableColumn [pEditableColumnDisabled]="form.disabled">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <mat-form-field class="w-full" appearance="standard">
+                  <input matInput type="number" required [(ngModel)]="item.value" />
+                </mat-form-field>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{ item.value }}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="w-full flex items-center justify-between">
+  <ng-container *ngIf="step === 0">
+    <button mat-stroked-button type="button" color="primary" [mat-dialog-close]="null">
+      Cancel
+    </button>
+    <button
+      mat-flat-button
+      type="button"
+      color="primary"
+      [disabled]="form.invalid"
+      (click)="next()"
+    >
+      Next
+    </button>
+  </ng-container>
+  <ng-container *ngIf="step === 1">
+    <button mat-stroked-button type="button" color="primary" (click)="previous()">Previous</button>
+    <button
+      *ngIf="!form.disabled"
+      mat-flat-button
+      type="button"
+      color="primary"
+      [disabled]="form.invalid"
+      (click)="onSubmit()"
+    >
+      Save
+    </button>
+    <button
+      *ngIf="form.disabled"
+      mat-flat-button
+      type="button"
+      color="primary"
+      [mat-dialog-close]="null"
+    >
+      Close
+    </button>
+  </ng-container>
+</mat-dialog-actions>

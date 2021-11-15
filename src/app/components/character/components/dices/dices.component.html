@@ -1,0 +1,121 @@
+<div class="p-6 w-full shadow-md bg-white">
+  <div class="flex items-center justify-between">
+    <h1 class="mb-2">Dices</h1>
+    <div class="flex items-center">
+      <button
+        type="button"
+        mat-mini-fab
+        aria-label="Add"
+        color="primary"
+        class="shadow"
+        matTooltip="Add new"
+        matTooltipPosition="below"
+        [disabled]="buttonsDisabled()"
+        (click)="onAdd()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="mb-4 w-full">
+    <form
+      class="w-full flex-col items-start justify-center"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-chip-list #chipList aria-label="Dices" multiple>
+        <mat-chip
+          *ngFor="let dice of dices"
+          [selected]="true"
+          [value]="dice.id"
+          (click)="onSelect(dice)"
+        >
+          {{ dice | shortDicePipe }}
+        </mat-chip>
+      </mat-chip-list>
+      <mat-form-field class="w-full" appearance="standard">
+        <mat-chip-list
+          #chipList
+          aria-label="Selected dices"
+          multiple
+          [formControl]="selectedDicesControl"
+        >
+          <mat-chip
+            *ngFor="let dice of selectedDicesControl.value"
+            [selected]="isSelected(dice)"
+            [value]="dice.id"
+            [removable]="true"
+            (removed)="removeDice(dice)"
+          >
+            {{ dice | shortDicePipe }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+        <mat-hint>Selected dices</mat-hint>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        class="mt-2"
+        type="submit"
+        color="primary"
+        [disabled]="form.invalid"
+      >
+        Throw dices
+        <mat-icon class="ml-2"> casino </mat-icon>
+      </button>
+    </form>
+  </div>
+  <p-table
+    styleClass="p-datatable-sm p-datatable-gridlines"
+    responsiveLayout="scroll"
+    dataKey="id"
+    [value]="dices"
+    [loading]="loadersService.dicesLoading"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th> Name </th>
+        <th *ngIf="showActions()">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td>
+          {{ item | dicePipe }}
+        </td>
+        <td *ngIf="showActions()">
+          <div *ngIf="item.userId" class="w-full flex items-center justify-evenly">
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              aria-label="Edit"
+              class="hover:bg-indigo-100 micro-button"
+              matTooltip="Edit"
+              matTooltipPosition="below"
+              [disabled]="buttonsDisabled()"
+              (click)="onEdit(item)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              color="warn"
+              aria-label="Delete"
+              class="hover:bg-red-100 micro-button"
+              matTooltip="Delete"
+              matTooltipPosition="below"
+              [disabled]="buttonsDisabled()"
+              (click)="onDelete(item)"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

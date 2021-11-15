@@ -1,0 +1,78 @@
+<mat-dialog-content>
+  <form
+    class="flex w-full flex-col items-start justify-center"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Abbreviation</mat-label>
+      <input matInput type="text" required [formControl]="abvControl" />
+      <mat-error *ngIf="abvControl.invalid"> You must enter an abbreviation </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" required [formControl]="nameControl" />
+      <mat-error *ngIf="nameControl.invalid"> You must enter a name </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Total points</mat-label>
+      <input matInput type="number" required [formControl]="totalControl" min="0" />
+      <mat-error *ngIf="totalControl.invalid && totalControl.hasError('required')">
+        You must enter a total amount of points.
+      </mat-error>
+      <mat-error *ngIf="totalControl.invalid && totalControl.hasError('min')">
+        The minimum amount of points is 0.
+      </mat-error>
+      <mat-hint>
+        Total amount of points the character has or maximum amount of points the character can
+        stack.
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Current points</mat-label>
+      <input
+        matInput
+        type="number"
+        required
+        [formControl]="currentControl"
+        min="0"
+        [max]="totalControl.value"
+      />
+      <mat-error *ngIf="currentControl.invalid && currentControl.hasError('required')">
+        You must enter a current amount of points.
+      </mat-error>
+      <mat-error *ngIf="currentControl.invalid && currentControl.hasError('min')">
+        The minimum amount of points is 0.
+      </mat-error>
+      <mat-error *ngIf="currentControl.invalid && currentControl.hasError('exceedsTotal')">
+        The current amount of points cannot exceed the total amount of points ({{
+          totalControl.value
+        }}).
+      </mat-error>
+      <mat-hint> Current amount of points the character will start with. </mat-hint>
+    </mat-form-field>
+    <mat-form-field *ngIf="data" class="w-full" appearance="standard">
+      <mat-label>Dices</mat-label>
+      <mat-select [formControl]="dicesControl" multiple>
+        <mat-option *ngFor="let dice of data.dices" [value]="dice.id">
+          {{ dice | dicePipe }}
+        </mat-option>
+      </mat-select>
+      <mat-hint>
+        A multiplier dice example is d10 * 10, which means it is a d10 by tens (10, 20, 30, ...)
+      </mat-hint>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="w-full flex items-center justify-between">
+  <button mat-stroked-button type="button" color="primary" [mat-dialog-close]="null">Cancel</button>
+  <button
+    mat-flat-button
+    type="button"
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="onSubmit()"
+  >
+    Create
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,76 @@
+<div class="flex flex-col items-start justify-center bg-white p-6 w-full">
+  <div class="w-full flex-grow">
+    <h1 *ngIf="form.disabled" class="text-center">Your character</h1>
+    <h1 *ngIf="!form.disabled" class="text-center">Update your character</h1>
+    <form
+      class="flex w-full flex-col items-start justify-center"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field class="w-full" appearance="standard">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" autocomplete="nickname" required [formControl]="nameControl" />
+        <mat-error *ngIf="nameControl.invalid"> You must enter a valid name </mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="standard">
+        <mat-label>Backstory</mat-label>
+        <textarea cdkTextareaAutosize matInput [formControl]="backstoryControl"></textarea>
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="standard">
+        <mat-label>Personality</mat-label>
+        <textarea cdkTextareaAutosize matInput [formControl]="personalityControl"></textarea>
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="standard">
+        <mat-label>Appeareance</mat-label>
+        <textarea cdkTextareaAutosize matInput [formControl]="appearanceControl"></textarea>
+      </mat-form-field>
+      <div *ngIf="!form.disabled" class="w-full flex items-center flex-wrap justify-between">
+        <button
+          mat-stroked-button
+          class="w-full md:w-auto"
+          color="primary"
+          type="button"
+          [disabled]="loadersService.characterInfoLoading"
+          (click)="onCancel()"
+        >
+          <mat-icon> close </mat-icon>
+          <span class="md:ml-2">Cancel</span>
+        </button>
+        <button
+          class="w-full md:w-auto"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loadersService.characterInfoLoading || form.pristine || form.untouched"
+        >
+          <mat-icon> save </mat-icon>
+          <span class="md:ml-2">Save</span>
+        </button>
+      </div>
+      <div *ngIf="form.disabled" class="w-full flex items-center flex-wrap justify-between">
+        <button
+          mat-button
+          class="w-full md:w-auto"
+          color="warn"
+          type="button"
+          [disabled]="loadersService.characterInfoLoading"
+          (click)="onDelete()"
+        >
+          <mat-icon> delete_forever </mat-icon>
+          <span class="md:ml-2">Delete character</span>
+        </button>
+        <button
+          mat-raised-button
+          class="w-full md:w-auto"
+          color="primary"
+          type="button"
+          [disabled]="loadersService.characterInfoLoading"
+          (click)="onEdit()"
+        >
+          <mat-icon> edit </mat-icon>
+          <span class="md:ml-2">Edit</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

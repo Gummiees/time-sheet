@@ -1,0 +1,154 @@
+<div class="flex justify-center">
+  <div class="rounded-lg p-8 shadow-lg bg-white flex flex-col items-start justify-center w-full">
+    <div class="w-full">
+      <form
+        class="flex w-full flex-col items-start justify-center"
+        [formGroup]="photoForm"
+        (ngSubmit)="onSubmitPhoto()"
+      >
+        <div class="w-full flex items-center mb-4 flex-wrap md:flex-nowrap justify-center">
+          <div class="h-24 mr-2 flex-none">
+            <img
+              *ngIf="photoUrl"
+              class="h-full rounded-full border border-solid border-black"
+              src="{{ photoUrl }}"
+            />
+            <mat-icon *ngIf="!photoUrl" class="h-full w-24 text-8xl text-indigo-material"
+              >account_circle</mat-icon
+            >
+          </div>
+          <mat-form-field class="w-full flex-grow p-0" appearance="standard">
+            <mat-label>Photo URL</mat-label>
+            <input
+              matInput
+              type="url"
+              autocomplete="photo"
+              required
+              [formControl]="photoControl"
+              (change)="onPhotoUrlChanged($event)"
+            />
+            <mat-error *ngIf="photoControl.invalid"> You must enter a valid URL </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="w-full">
+          <!-- <button
+            mat-button
+            type="button"
+            color="warn"
+            [disabled]="loadersService.userInfoLoading || photoUrlHasChanged()"
+            (click)="onDeleteImage()"
+          >
+            <mat-icon> delete </mat-icon>
+            <span class="ml-2">Delete image</span>
+          </button> -->
+          <button
+            mat-raised-button
+            class="w-full"
+            color="primary"
+            type="submit"
+            [disabled]="loadersService.userInfoLoading || photoForm.invalid"
+          >
+            <mat-icon> save </mat-icon>
+            <span class="ml-2">Save</span>
+          </button>
+        </div>
+      </form>
+      <mat-divider class="w-full mt-4 pb-4"></mat-divider>
+      <form
+        class="flex w-full flex-col items-start justify-center"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+      >
+        <mat-form-field class="w-full" appearance="standard">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            type="text"
+            autocomplete="username"
+            required
+            [formControl]="usernameControl"
+          />
+          <mat-error *ngIf="usernameControl.invalid && usernameControl.hasError('required')">
+            You must enter a username
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="standard">
+          <mat-label>Enter your new password</mat-label>
+          <input
+            matInput
+            autocomplete="new-password"
+            [type]="hide ? 'password' : 'text'"
+            [formControl]="newPasswordControl"
+          />
+          <button
+            mat-icon-button
+            type="button"
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="newPasswordControl.invalid && newPasswordControl.hasError('minlength')">
+            Must be at least 6 characters
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full" appearance="standard">
+          <mat-label>Repeat the password</mat-label>
+          <input
+            matInput
+            type="password"
+            autocomplete="new-password"
+            [formControl]="newPasswordRepeatControl"
+          />
+          <mat-error
+            *ngIf="
+              newPasswordRepeatControl.invalid && newPasswordRepeatControl.hasError('notEquivalent')
+            "
+          >
+            Passwords must be equal
+          </mat-error>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          class="w-full"
+          type="submit"
+          [disabled]="loadersService.userInfoLoading || form.invalid"
+        >
+          <mat-icon> save </mat-icon>
+          <span class="ml-2">Save</span>
+        </button>
+      </form>
+    </div>
+
+    <mat-divider class="w-full mt-4 pb-4"></mat-divider>
+
+    <div class="w-full flex flex-wrap items-center justify-between">
+      <button
+        mat-button
+        class="w-full md:w-auto"
+        color="warn"
+        type="button"
+        [disabled]="loadersService.userInfoLoading"
+        (click)="onDelete()"
+      >
+        <mat-icon> delete_forever </mat-icon>
+        <span class="md:ml-2">Delete acocunt</span>
+      </button>
+      <button
+        mat-raised-button
+        color="warn"
+        type="button"
+        class="w-full md:w-auto mt-2 md:mt-0"
+        [disabled]="loadersService.userInfoLoading"
+        (click)="onLogout()"
+      >
+        <mat-icon> logout </mat-icon>
+        <span class="ml-2">Logout</span>
+      </button>
+    </div>
+  </div>
+</div>

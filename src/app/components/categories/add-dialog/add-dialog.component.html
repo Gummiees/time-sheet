@@ -1,0 +1,30 @@
+<mat-dialog-content>
+  <form
+    class="flex w-full flex-col items-start justify-center"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" autocomplete="name" required [formControl]="nameControl" />
+      <mat-error *ngIf="nameControl.invalid"> You must enter a name </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Color</mat-label>
+      <input matInput type="color" autocomplete="color" required [formControl]="colorControl" />
+      <mat-error *ngIf="colorControl.invalid"> You must enter a color </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="w-full flex items-center justify-between">
+  <button mat-stroked-button type="button" color="primary" [mat-dialog-close]="null">Cancel</button>
+  <button
+    mat-flat-button
+    type="button"
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="onSubmit()"
+  >
+    Create
+  </button>
+</mat-dialog-actions>

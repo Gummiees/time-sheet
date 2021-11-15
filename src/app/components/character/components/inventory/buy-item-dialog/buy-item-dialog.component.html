@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>Buy {{ data.name }}</h1>
+<mat-dialog-content>
+  <form
+    class="flex w-full flex-col items-start justify-center"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label>Cuantity</mat-label>
+      <input
+        matInput
+        type="number"
+        required
+        [formControl]="quantityControl"
+        min="1"
+        [max]="data.quantity"
+      />
+      <mat-hint> You currently have {{ data.quantity }} {{ data.name }}. </mat-hint>
+      <mat-error *ngIf="quantityControl.invalid && quantityControl.hasError('required')">
+        Quantity is required.
+      </mat-error>
+      <mat-error *ngIf="quantityControl.invalid && quantityControl.hasError('min')">
+        Quantity must be 1 or more.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="standard">
+      <mat-label> Buy for {{ buyForTitle() }} </mat-label>
+      <input matInput type="number" required [formControl]="priceControl" min="0" />
+      <mat-hint> Gold used buying the item. Set to 0 if it was not bought. </mat-hint>
+      <mat-error *ngIf="priceControl.invalid && priceControl.hasError('required')">
+        Price is required.
+      </mat-error>
+      <mat-error *ngIf="priceControl.invalid && priceControl.hasError('min')">
+        Price must be 0 or more.
+      </mat-error>
+    </mat-form-field>
+    <mat-slide-toggle class="w-full mt-2" color="primary" [formControl]="switchPriceControl">
+      Price indicates total
+    </mat-slide-toggle>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="w-full flex items-center justify-between">
+  <button mat-stroked-button type="button" color="primary" [mat-dialog-close]="null">Cancel</button>
+  <button
+    mat-flat-button
+    type="button"
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="onSubmit()"
+  >
+    Buy
+  </button>
+</mat-dialog-actions>
