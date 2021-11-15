@@ -13,7 +13,6 @@ import {
   AngularFirePerformanceModule,
   PerformanceMonitoringService
 } from '@angular/fire/compat/performance';
-import { QuillModule } from 'ngx-quill';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -22,19 +21,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicDialogModule } from '@shared/components/basic-dialog/basic-dialog.module';
 import { FooterModule } from '@shared/components/footer/footer.module';
 import { MenuModule } from '@shared/components/menu/menu.module';
+import { SaveCmdDirective } from '@shared/directives/save-cmd.directive';
 import { SharedModule } from '@shared/shared.module';
+import { QuillModule } from 'ngx-quill';
 import { RippleModule } from 'primeng/ripple';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
-import { AddItemDialogModule } from './components/character/components/inventory/add-item-dialog/add-item-dialog.module';
-import { BuyItemDialogModule } from './components/character/components/inventory/buy-item-dialog/buy-item-dialog.module';
-import { GoldDialogModule } from './components/character/components/inventory/gold-dialog/gold-dialog.module';
-import { SellItemDialogModule } from './components/character/components/inventory/sell-item-dialog/sell-item-dialog.module';
-import { SaveCmdDirective } from '@shared/directives/save-cmd.directive';
-import { StatDetailsDialogModule } from './components/character/components/character-stats/stat-details-dialog/stat-details-dialog.module';
-import { SkillDialogModule } from './components/character/components/skills/skill-dialog/skill-dialog.module';
-import { DiceDialogModule } from './components/character/components/dices/dice-dialog/dice-dialog.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -64,14 +57,7 @@ import { DiceDialogModule } from './components/character/components/dices/dice-d
     }),
     BasicDialogModule,
     MenuModule,
-    FooterModule,
-    AddItemDialogModule,
-    SellItemDialogModule,
-    BuyItemDialogModule,
-    GoldDialogModule,
-    StatDetailsDialogModule,
-    SkillDialogModule,
-    DiceDialogModule
+    FooterModule
   ],
   providers: [
     PerformanceMonitoringService,
