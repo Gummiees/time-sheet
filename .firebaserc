@@ -1,0 +1,12 @@
+{
+  "projects": {},
+  "targets": {
+    "time-sheet-9b403": {
+      "hosting": {
+        "time-sheet-9b403": [
+          "dist/time-sheet"
+        ]
+      }
+    }
+  }
+}
