@@ -1,6 +1,6 @@
 {
   "name": "time-sheet",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "homepage": "https://github.com/Gummiees/time-sheet",
   "scripts": {
     "ng": "ng",

@@ -5,14 +5,7 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
-
-@mixin style-message($bg-color, $action-color, $text-color: 'black') {
-  @apply bg-#{$bg-color} text-#{$text-color};
-
-  .mat-simple-snackbar-action {
-    @apply text-#{$action-color};
-  }
-}
+@import 'theme/mixins.scss';
 
 body {
   margin: 0;
@@ -101,4 +94,7 @@ p-table p-celleditor mat-form-field .mat-form-field-infix {
 .p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon.pi-check::before {
   top: 8px;
   left: 2px;
+}
+.invert-svg-color {
+  @include invert-svg-color;
 }

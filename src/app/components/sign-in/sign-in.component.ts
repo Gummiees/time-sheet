@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadersService } from '@shared/services/loaders.service';
 import { MessageService } from '@shared/services/message.service';
 import { UserService } from '@shared/services/user.service';
+
+type SignIn = 'google' | 'github';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,38 +12,32 @@ import { UserService } from '@shared/services/user.service';
 })
 export class SignInComponent {
   public hide: boolean = true;
-  form: FormGroup = new FormGroup({});
-  emailControl: FormControl = new FormControl(null, [Validators.required, Validators.email]);
-  passwordControl: FormControl = new FormControl(null, [Validators.required]);
   constructor(
     public loadersService: LoadersService,
     private userService: UserService,
     private messageService: MessageService,
     private router: Router
-  ) {
-    this.setForm();
-  }
-
-  async onSubmit() {
-    if (this.form.valid) {
-      this.loadersService.signInLoading = true;
-      try {
-        const { email, password } = this.form.value;
-        await this.userService.signIn(email, password);
-        this.messageService.showOk('Welcome back!');
-        this.router.navigate(['/']);
-      } catch (e: any) {
-        console.error(e);
-        this.messageService.showError(e);
-      }
-      this.loadersService.signInLoading = false;
-    }
-  }
+  ) {}
 
   async onGoogleSignIn() {
+    this.onSignIn('google');
+  }
+
+  async onGitHubSignIn() {
+    this.onSignIn('github');
+  }
+
+  private async onSignIn(signInWith: SignIn) {
     this.loadersService.signInLoading = true;
     try {
-      await this.userService.googleSignIn();
+      switch (signInWith) {
+        case 'google':
+          await this.userService.googleSignIn();
+          break;
+        case 'github':
+          await this.userService.githubSignIn();
+          break;
+      }
       this.messageService.showOk('Welcome back!');
       this.router.navigate(['/']);
     } catch (e: any) {
@@ -50,16 +45,5 @@ export class SignInComponent {
       this.messageService.showError(e);
     }
     this.loadersService.signInLoading = false;
-  }
-
-  goToSignUp() {
-    this.router.navigate(['/sign-up']);
-  }
-
-  private setForm() {
-    this.form = new FormGroup({
-      email: this.emailControl,
-      password: this.passwordControl
-    });
   }
 }

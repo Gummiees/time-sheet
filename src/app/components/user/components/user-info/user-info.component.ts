@@ -1,20 +1,14 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import {
-  BasicDialogComponent,
-  BasicDialogData
-} from '@shared/components/basic-dialog/basic-dialog.component';
 import { BasicDialogModel } from '@shared/models/dialog.model';
 import { CommonService } from '@shared/services/common.service';
 import { DialogService } from '@shared/services/dialog.service';
 import { GlobalService } from '@shared/services/global.service';
 import { LoadersService } from '@shared/services/loaders.service';
 import { MessageService } from '@shared/services/message.service';
-import { ValidatorsService } from '@shared/services/validators.service';
 import firebase from 'firebase/compat/app';
 import { Subscription } from 'rxjs';
-import { filter, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { UserService } from '../../../../shared/services/user.service';
 
 @Component({
@@ -34,8 +28,6 @@ export class UserInfoComponent implements OnDestroy {
     Validators.pattern(this.globalService.regexUrl)
   ]);
   usernameControl: FormControl = new FormControl(null, [Validators.required]);
-  newPasswordControl: FormControl = new FormControl(null, [Validators.minLength(6)]);
-  newPasswordRepeatControl: FormControl = new FormControl(null);
 
   private subscriptions: Subscription[] = [];
 
@@ -45,8 +37,7 @@ export class UserInfoComponent implements OnDestroy {
     private globalService: GlobalService,
     private userService: UserService,
     private messageService: MessageService,
-    private commonService: CommonService,
-    private validatorsService: ValidatorsService
+    private commonService: CommonService
   ) {
     this.setForms();
     this.subscribeToUser();
@@ -83,9 +74,7 @@ export class UserInfoComponent implements OnDestroy {
       this.loadersService.userInfoLoading = true;
 
       try {
-        const userPromise = this.updateUsername();
-        const pwPromise = this.updatePassword();
-        await Promise.all([userPromise, pwPromise]);
+        await this.updateUsername();
         this.messageService.showOk('Profile updated successfully');
       } catch (e: any) {
         console.error(e);
@@ -137,14 +126,6 @@ export class UserInfoComponent implements OnDestroy {
     }
   }
 
-  private async updatePassword() {
-    const newPassword = this.newPasswordControl.value;
-    const newPasswordRepeat = this.newPasswordRepeatControl.value;
-    if (!this.commonService.isNullOrEmpty(newPassword) && newPassword === newPasswordRepeat) {
-      await this.userService.updatePassword(newPassword);
-    }
-  }
-
   private setUserInfo(user: firebase.User | null) {
     this.setUsername(user?.displayName || null);
     this.email = user?.email || null;
@@ -165,14 +146,9 @@ export class UserInfoComponent implements OnDestroy {
   }
 
   private setForms() {
-    this.form = new FormGroup(
-      {
-        username: this.usernameControl,
-        newPassword: this.newPasswordControl,
-        newPasswordRepeat: this.newPasswordRepeatControl
-      },
-      this.validatorsService.checkIfMatchingPasswords('newPassword', 'newPasswordRepeat')
-    );
+    this.form = new FormGroup({
+      username: this.usernameControl
+    });
 
     this.photoForm = new FormGroup({
       photoUrl: this.photoControl

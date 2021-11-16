@@ -19,4 +19,8 @@ export class MessageService {
   showOk(message: string) {
     this.snackBar.open(message, 'Close', { panelClass: 'success-message' });
   }
+
+  showWarn(message: string) {
+    this.snackBar.open(message, 'Close', { panelClass: 'warn-message' });
+  }
 }

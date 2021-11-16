@@ -8,80 +8,49 @@
       shadow-lg
       bg-white
       rounded-lg
-      p-12
+      p-8
       m-12
       w-full
       md:w-9/12
     "
   >
     <div class="w-full">
-      <h1 class="text-center">Sign In</h1>
-      <form
-        class="flex w-full flex-col items-start justify-center"
-        [formGroup]="form"
-        (ngSubmit)="onSubmit()"
-      >
-        <mat-form-field class="w-full" appearance="standard">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" autocomplete="email" required [formControl]="emailControl" />
-          <mat-error *ngIf="emailControl.invalid"> You must enter a valid email </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-full mb-4" appearance="standard">
-          <mat-label>Enter your password</mat-label>
-          <input
-            matInput
-            autocomplete="new-password"
-            [type]="hide ? 'password' : 'text'"
-            [formControl]="passwordControl"
+      <h1 class="text-center">Welcome to Time Sheet!</h1>
+      <h2 class="text-center">Sign In</h2>
+      <div class="w-full flex flex-col items-center justify-center">
+        <button
+          mat-stroked-button
+          type="button"
+          color="primary"
+          class="flex justify-center w-auto mt-2"
+          [disabled]="loadersService.signInLoading"
+          (click)="onGoogleSignIn()"
+        >
+          <img
+            src="assets/images/google.svg"
+            alt="Google logo"
+            class="w-6"
+            aria-label="Sign In with Google"
           />
-          <button mat-icon-button type="button" matSuffix (click)="hide = !hide" tabindex="-1">
-            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          <mat-error *ngIf="passwordControl.invalid"> You must enter the password </mat-error>
-          <mat-hint align="end">
-            <a class="text-indigo-material" routerLink="/forgot-password">
-              Forgot your password?
-            </a>
-          </mat-hint>
-        </mat-form-field>
-        <div class="w-full flex flex-wrap items-center justify-between">
-          <button
-            mat-stroked-button
-            color="primary"
-            class="w-full md:w-auto"
-            type="button"
-            [disabled]="loadersService.signInLoading"
-            (click)="goToSignUp()"
-          >
-            <span>Sign Up</span>
-          </button>
-          <button
-            mat-stroked-button
-            type="button"
-            color="primary"
-            class="flex justify-center w-full md:w-auto mt-2 md:mt-0"
-            [disabled]="loadersService.signInLoading"
-            (click)="onGoogleSignIn()"
-          >
-            <img
-              src="assets/images/google.svg"
-              alt="Google logo"
-              class="w-6"
-              aria-label="Sign In with Google"
-            />
-            <span class="ml-2">Sign In with Google</span>
-          </button>
-          <button
-            mat-raised-button
-            color="primary"
-            type="submit"
-            class="w-full md:w-auto mt-2 md:mt-0"
-            [disabled]="loadersService.signInLoading"
-          >
-            <span>Sign In</span>
-          </button>
-        </div>
-      </form>
+          <span class="ml-2">Sign In with Google</span>
+        </button>
+        <button
+          mat-stroked-button
+          type="button"
+          color="primary"
+          class="flex justify-center w-auto mt-2"
+          [disabled]="loadersService.signInLoading"
+          (click)="onGitHubSignIn()"
+        >
+          <img
+            src="assets/images/github.svg"
+            alt="GitHub logo"
+            class="w-6 invert-svg-color"
+            aria-label="Sign In with GitHub"
+          />
+          <span class="ml-2">Sign In with GitHub</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

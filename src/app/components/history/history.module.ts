@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@shared/shared.module';
-import { SignUpRoutingModule } from './sign-up.routes';
-import { SignUpComponent } from './sign-up.component';
+import { HistoryRoutingModule } from './history.routes';
+import { HistoryComponent } from './history.component';
 
 @NgModule({
-  declarations: [SignUpComponent],
+  declarations: [HistoryComponent],
   imports: [
     SharedModule,
-    SignUpRoutingModule,
+    HistoryRoutingModule,
+    AngularFireAuthModule,
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -22,4 +24,4 @@ import { SignUpComponent } from './sign-up.component';
   exports: [],
   providers: []
 })
-export class SignUpModule {}
+export class HistoryModule {}

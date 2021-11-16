@@ -32,16 +32,6 @@
         </div>
 
         <div class="w-full">
-          <!-- <button
-            mat-button
-            type="button"
-            color="warn"
-            [disabled]="loadersService.userInfoLoading || photoUrlHasChanged()"
-            (click)="onDeleteImage()"
-          >
-            <mat-icon> delete </mat-icon>
-            <span class="ml-2">Delete image</span>
-          </button> -->
           <button
             mat-raised-button
             class="w-full"
@@ -71,44 +61,6 @@
           />
           <mat-error *ngIf="usernameControl.invalid && usernameControl.hasError('required')">
             You must enter a username
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-full" appearance="standard">
-          <mat-label>Enter your new password</mat-label>
-          <input
-            matInput
-            autocomplete="new-password"
-            [type]="hide ? 'password' : 'text'"
-            [formControl]="newPasswordControl"
-          />
-          <button
-            mat-icon-button
-            type="button"
-            matSuffix
-            (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide"
-          >
-            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          <mat-error *ngIf="newPasswordControl.invalid && newPasswordControl.hasError('minlength')">
-            Must be at least 6 characters
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-full" appearance="standard">
-          <mat-label>Repeat the password</mat-label>
-          <input
-            matInput
-            type="password"
-            autocomplete="new-password"
-            [formControl]="newPasswordRepeatControl"
-          />
-          <mat-error
-            *ngIf="
-              newPasswordRepeatControl.invalid && newPasswordRepeatControl.hasError('notEquivalent')
-            "
-          >
-            Passwords must be equal
           </mat-error>
         </mat-form-field>
         <button

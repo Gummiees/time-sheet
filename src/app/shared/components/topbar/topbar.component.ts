@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { UserService } from '@shared/services/user.service';
 import firebase from 'firebase/compat/app';
 import { Subscription } from 'rxjs';
-import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-topbar',
@@ -11,19 +10,15 @@ import { MenuService } from '../../services/menu.service';
 export class TopbarComponent implements OnDestroy {
   public photoUrl: string | null = this.userService.imageUrl;
   public username?: string | null;
-  public version: string = '0.0.2';
+  public version: string = '0.0.1';
   private subscriptions: Subscription[] = [];
 
-  constructor(private userService: UserService, private menuService: MenuService) {
+  constructor(private userService: UserService) {
     this.subscribeToUser();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub: Subscription) => sub.unsubscribe());
-  }
-
-  onMenuClick() {
-    this.menuService.toggle();
   }
 
   private setUserInfo(user: firebase.User | null) {
