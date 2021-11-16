@@ -20,7 +20,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicDialogModule } from '@shared/components/basic-dialog/basic-dialog.module';
-import { FooterModule } from '@shared/components/footer/footer.module';
 import { TopbarModule } from '@shared/components/topbar/topbar.module';
 import { SharedModule } from '@shared/shared.module';
 import { QuillModule } from 'ngx-quill';
@@ -58,8 +57,7 @@ import { AppRoutingModule } from './app.routes';
       ]
     }),
     BasicDialogModule,
-    TopbarModule,
-    FooterModule
+    TopbarModule
   ],
   providers: [PerformanceMonitoringService, ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent]
