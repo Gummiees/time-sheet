@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import {
-  AngularFireAuthGuard,
   canActivate,
   redirectLoggedInTo,
   redirectUnauthorizedTo
@@ -12,11 +11,9 @@ const redirectLoggedInToMain = () => redirectLoggedInTo(['main']);
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () =>
-      import('./components/input-time/input-time.module').then((m) => m.InputTimeModule),
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToSignIn }
+    path: 'main',
+    loadChildren: () => import('./components/main/main.module').then((m) => m.MainModule),
+    ...canActivate(redirectUnauthorizedToSignIn)
   },
   {
     path: 'user',
@@ -28,7 +25,7 @@ const routes: Routes = [
     loadChildren: () => import('./components/sign-in/sign-in.module').then((m) => m.SignInModule),
     ...canActivate(redirectLoggedInToMain)
   },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '**', redirectTo: 'main', pathMatch: 'full' }
 ];
 
 @NgModule({

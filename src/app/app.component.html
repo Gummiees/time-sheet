@@ -2,7 +2,8 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <main class="w-full bg-gray-100 min-h-screen flex flex-col">
-  <app-menu *ngIf="loggedIn" class="flex-none z-10 h-20"></app-menu>
+  <app-topbar *ngIf="loggedIn" class="flex-none z-10 h-20"></app-topbar>
+
   <div
     class="
       w-screen
@@ -12,7 +13,6 @@
       flex flex-col
       main-content
     "
-    [ngClass]="{ 'md:ml-56': menuService.isActive }"
   >
     <router-outlet></router-outlet>
   </div>

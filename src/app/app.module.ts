@@ -16,11 +16,12 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicDialogModule } from '@shared/components/basic-dialog/basic-dialog.module';
 import { FooterModule } from '@shared/components/footer/footer.module';
-import { MenuModule } from '@shared/components/menu/menu.module';
+import { TopbarModule } from '@shared/components/topbar/topbar.module';
 import { SharedModule } from '@shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { RippleModule } from 'primeng/ripple';
@@ -45,6 +46,8 @@ import { AppRoutingModule } from './app.routes';
     AngularFireAnalyticsModule,
     MatProgressBarModule,
     MatSnackBarModule,
+    MatTabsModule,
+    MatIconModule,
     MatIconModule,
     QuillModule.forRoot({
       customOptions: [
@@ -55,7 +58,7 @@ import { AppRoutingModule } from './app.routes';
       ]
     }),
     BasicDialogModule,
-    MenuModule,
+    TopbarModule,
     FooterModule
   ],
   providers: [PerformanceMonitoringService, ScreenTrackingService, UserTrackingService],
