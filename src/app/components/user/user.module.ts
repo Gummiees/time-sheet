@@ -10,6 +10,7 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 import { UserRoutingModule } from './user.routes';
 import { UserComponent } from './user.component';
+import { UserInfoService } from './components/user-info/user-info.service';
 
 @NgModule({
   declarations: [UserComponent, UserSettingsComponent, UserInfoComponent],
@@ -22,6 +23,7 @@ import { UserComponent } from './user.component';
     MatFormFieldModule,
     MatInputModule,
     MatDividerModule
-  ]
+  ],
+  providers: [UserInfoService]
 })
 export class UserModule {}

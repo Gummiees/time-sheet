@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@shared/shared.module';
 import { SignInRoutingModule } from './sign-in.routes';
 import { SignInComponent } from './sign-in.component';
+import { SignInService } from './sign-in.service';
 
 @NgModule({
   declarations: [SignInComponent],
@@ -22,6 +23,6 @@ import { SignInComponent } from './sign-in.component';
     MatDividerModule
   ],
   exports: [],
-  providers: []
+  providers: [SignInService]
 })
 export class SignInModule {}

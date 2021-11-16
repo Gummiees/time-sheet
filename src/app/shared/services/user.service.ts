@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { CommonService } from '@shared/services/common.service';
 import firebase from 'firebase/compat/app';
 import { BehaviorSubject } from 'rxjs';
 
@@ -9,30 +8,6 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  public set imageUrl(url: string | null) {
-    if (!url) {
-      this._imageUrl = null;
-      sessionStorage.removeItem('profileImageUrl');
-      return;
-    }
-    let img: HTMLImageElement | null = document.createElement('img');
-    img.src = url;
-    img.crossOrigin = 'anonymous';
-    const imgData: string | undefined = this.commonService.getBase64Image(img);
-    this._imageUrl = imgData;
-    if (!imgData) {
-      sessionStorage.setItem('profileImageUrl', url);
-      return;
-    }
-    sessionStorage.setItem('profileImageUrl', imgData);
-  }
-
-  public get imageUrl(): string | null {
-    if (!this._imageUrl) {
-      this._imageUrl = sessionStorage.getItem('profileImageUrl');
-    }
-    return this._imageUrl;
-  }
   public get user(): Promise<firebase.User | null> {
     if (this._user) {
       return Promise.resolve(this._user);
@@ -40,21 +15,14 @@ export class UserService {
     return this.auth.currentUser;
   }
   private _user: firebase.User | null = null;
-  private _imageUrl: string | null | undefined = null;
-
   public $user: BehaviorSubject<firebase.User | null> = new BehaviorSubject(this._user);
 
-  constructor(
-    private readonly auth: AngularFireAuth,
-    private router: Router,
-    private commonService: CommonService
-  ) {
+  constructor(private readonly auth: AngularFireAuth, private router: Router) {
     this.setUserInfo();
   }
 
-  public logout() {
-    this.auth.signOut();
-    this.imageUrl = null;
+  public async logout() {
+    await this.auth.signOut();
     this.router.navigate(['/sign-in']);
   }
 
@@ -88,20 +56,11 @@ export class UserService {
     this.router.navigate(['/sign-in']);
   }
 
-  public async updateUsername(username: string) {
+  public async updateUsername(username: string | null) {
     if (this._user == null) {
       this._user = await this.auth.currentUser;
     }
     await this._user?.updateProfile({ displayName: username });
-    this.$user.next(this._user);
-  }
-
-  public async updateImage(photoURL: string | null) {
-    if (this._user == null) {
-      this._user = await this.auth.currentUser;
-    }
-    await this._user?.updateProfile({ photoURL: photoURL });
-    this.imageUrl = this._user?.photoURL || null;
     this.$user.next(this._user);
   }
 
@@ -110,13 +69,10 @@ export class UserService {
     return this._user;
   }
 
-  public async setUserInfo(forceUpdateImage?: boolean) {
+  public async setUserInfo() {
     if (!this._user) {
       this._user = await this.auth.currentUser;
       this.$user.next(this._user);
-    }
-    if (forceUpdateImage || !this.imageUrl) {
-      this.imageUrl = this._user?.photoURL || null;
     }
   }
 }

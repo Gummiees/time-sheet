@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './topbar.component.html'
 })
 export class TopbarComponent implements OnDestroy {
-  public photoUrl: string | null = this.userService.imageUrl;
   public username?: string | null;
   public version: string = '0.0.1';
   private subscriptions: Subscription[] = [];
@@ -23,7 +22,6 @@ export class TopbarComponent implements OnDestroy {
 
   private setUserInfo(user: firebase.User | null) {
     this.username = user?.displayName || user?.email;
-    this.photoUrl = this.userService.imageUrl;
   }
 
   private subscribeToUser() {

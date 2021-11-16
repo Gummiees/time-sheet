@@ -43,7 +43,6 @@
     matTooltipPosition="below"
   >
     <span class="mr-2" *ngIf="username">{{ username }}</span>
-    <img *ngIf="photoUrl" class="rounded-full h-12" src="{{ photoUrl }}" />
-    <mat-icon *ngIf="!photoUrl" class="h-12 w-12 text-5xl"> account_circle </mat-icon>
+    <mat-icon class="h-12 w-12 text-5xl"> account_circle </mat-icon>
   </a>
 </mat-toolbar>

@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { LoadersService } from '@shared/services/loaders.service';
 import { MessageService } from '@shared/services/message.service';
 import { UserService } from '@shared/services/user.service';
-
-type SignIn = 'google' | 'github';
+import { SignIn, SignInService } from './sign-in.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,7 +13,7 @@ export class SignInComponent {
   public hide: boolean = true;
   constructor(
     public loadersService: LoadersService,
-    private userService: UserService,
+    private signInService: SignInService,
     private messageService: MessageService,
     private router: Router
   ) {}
@@ -30,14 +29,7 @@ export class SignInComponent {
   private async onSignIn(signInWith: SignIn) {
     this.loadersService.signInLoading = true;
     try {
-      switch (signInWith) {
-        case 'google':
-          await this.userService.googleSignIn();
-          break;
-        case 'github':
-          await this.userService.githubSignIn();
-          break;
-      }
+      await this.signInService.signIn(signInWith);
       this.messageService.showOk('Welcome back!');
       this.router.navigate(['/']);
     } catch (e: any) {
