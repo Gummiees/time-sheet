@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private readonly auth: AngularFireAuth
   ) {
-    // this.auth.authState.subscribe((user) => (this.loggedIn = !!user));
+    this.auth.authState.subscribe((user) => (this.loggedIn = !!user));
   }
 
   ngOnInit() {

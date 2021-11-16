@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { CommonService } from '@shared/services/common.service';
-import { MessageService } from '@shared/services/message.service';
 import firebase from 'firebase/compat/app';
 import { BehaviorSubject } from 'rxjs';
 
@@ -48,7 +47,6 @@ export class UserService {
   constructor(
     private readonly auth: AngularFireAuth,
     private router: Router,
-    private messageService: MessageService,
     private commonService: CommonService
   ) {
     this.setUserInfo();
@@ -60,24 +58,9 @@ export class UserService {
     this.router.navigate(['/sign-in']);
   }
 
-  public async createUser(email: string, password: string, username?: string) {
-    const credential = await this.auth.createUserWithEmailAndPassword(email, password);
-    if (username) {
-      await this.updateUsername(username);
-    }
-    this._user = credential.user;
-    this.$user.next(this._user);
-  }
-
   public async googleSignUp() {
     const provider = new firebase.auth.GoogleAuthProvider();
     const credential = await this.auth.signInWithPopup(provider);
-    this._user = credential.user;
-    this.$user.next(this._user);
-  }
-
-  public async signIn(email: string, password: string) {
-    const credential = await this.auth.signInWithEmailAndPassword(email, password);
     this._user = credential.user;
     this.$user.next(this._user);
   }
@@ -89,8 +72,11 @@ export class UserService {
     this.$user.next(this._user);
   }
 
-  public async forgotPassword(email: string) {
-    await this.auth.sendPasswordResetEmail(email);
+  public async githubSignIn() {
+    const provider = new firebase.auth.GithubAuthProvider();
+    const credential = await this.auth.signInWithPopup(provider);
+    this._user = credential.user;
+    this.$user.next(this._user);
   }
 
   public async deleteUser() {
@@ -117,22 +103,6 @@ export class UserService {
     await this._user?.updateProfile({ photoURL: photoURL });
     this.imageUrl = this._user?.photoURL || null;
     this.$user.next(this._user);
-  }
-
-  public async updatePassword(newPassword: string) {
-    if (this._user == null) {
-      this._user = await this.auth.currentUser;
-    }
-    // TODO: Confirm through email first in the future
-    await this._user?.updatePassword(newPassword);
-  }
-
-  public async updateEmail(newEmail: string) {
-    if (this._user == null) {
-      this._user = await this.auth.currentUser;
-    }
-    await this._user?.verifyBeforeUpdateEmail(newEmail);
-    this.messageService.showOk('An email has been sent to change your email address');
   }
 
   public async getUserInfo(): Promise<firebase.User | null> {

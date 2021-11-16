@@ -21,7 +21,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicDialogModule } from '@shared/components/basic-dialog/basic-dialog.module';
 import { FooterModule } from '@shared/components/footer/footer.module';
 import { MenuModule } from '@shared/components/menu/menu.module';
-import { SaveCmdDirective } from '@shared/directives/save-cmd.directive';
 import { SharedModule } from '@shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { RippleModule } from 'primeng/ripple';
@@ -59,12 +58,7 @@ import { AppRoutingModule } from './app.routes';
     MenuModule,
     FooterModule
   ],
-  providers: [
-    PerformanceMonitoringService,
-    ScreenTrackingService,
-    UserTrackingService,
-    SaveCmdDirective
-  ],
+  providers: [PerformanceMonitoringService, ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,1 +1,19 @@
-<main>Time-sheet website :)</main>
+<div *ngIf="loadersService.isAnyLoading()" class="absolute w-full z-20">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<main class="w-full bg-gray-100 min-h-screen flex flex-col">
+  <app-menu *ngIf="loggedIn" class="flex-none z-10 h-20"></app-menu>
+  <div
+    class="
+      w-screen
+      ml-0
+      flex-grow
+      md:transition-margin md:duration-400 md:ease-out
+      flex flex-col
+      main-content
+    "
+    [ngClass]="{ 'md:ml-56': menuService.isActive }"
+  >
+    <router-outlet></router-outlet>
+  </div>
+</main>
