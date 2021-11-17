@@ -14,7 +14,7 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        loadChildren: () => import('../input-time/input-time.module').then((m) => m.InputTimeModule)
+        loadChildren: () => import('../home/home.module').then((m) => m.HomeModule)
       },
       {
         path: 'history',
