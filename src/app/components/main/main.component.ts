@@ -9,17 +9,17 @@ export class MainComponent {
   tabs: TabItem[] = [
     {
       label: 'Home',
-      link: '/main',
+      link: '/',
       icon: 'home'
     },
     {
       label: 'History',
-      link: '/main/history',
+      link: 'history',
       icon: 'history'
     },
     {
       label: 'Charts',
-      link: '/main/charts',
+      link: 'charts',
       icon: 'insert_chart_outlined'
     }
   ];

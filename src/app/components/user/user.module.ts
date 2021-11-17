@@ -11,6 +11,7 @@ import { UserSettingsComponent } from './components/user-settings/user-settings.
 import { UserRoutingModule } from './user.routes';
 import { UserComponent } from './user.component';
 import { UserInfoService } from './components/user-info/user-info.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [UserComponent, UserSettingsComponent, UserInfoComponent],
@@ -22,6 +23,7 @@ import { UserInfoService } from './components/user-info/user-info.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTooltipModule,
     MatDividerModule
   ],
   providers: [UserInfoService]

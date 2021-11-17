@@ -11,7 +11,7 @@ const redirectLoggedInToMain = () => redirectLoggedInTo(['main']);
 
 const routes: Routes = [
   {
-    path: 'main',
+    path: '',
     loadChildren: () => import('./components/main/main.module').then((m) => m.MainModule),
     ...canActivate(redirectUnauthorizedToSignIn)
   },

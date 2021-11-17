@@ -1,6 +1,19 @@
 <div class="flex justify-center">
   <div class="rounded-lg p-8 shadow-lg bg-white flex flex-col items-start justify-center w-full">
-    <div class="w-full">
+    <div class="w-full relative">
+      <div class="absolute">
+        <button
+          mat-button
+          color="primary"
+          type="button"
+          aria-label="Homepage"
+          matTooltip="Homepage"
+          matTooltipPosition="below"
+        >
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+      <h1 class="text-center">Update your information</h1>
       <mat-divider class="w-full mt-4 pb-4"></mat-divider>
       <form
         class="flex w-full flex-col items-start justify-center"
