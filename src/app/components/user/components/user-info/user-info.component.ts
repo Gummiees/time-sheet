@@ -1,15 +1,17 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BasicDialogModel } from '@shared/models/dialog.model';
-import { CommonService } from '@shared/services/common.service';
+import { User } from '@shared/models/user.model';
 import { DialogService } from '@shared/services/dialog.service';
-import { GlobalService } from '@shared/services/global.service';
 import { LoadersService } from '@shared/services/loaders.service';
+import { MeService } from '@shared/services/me.service';
 import { MessageService } from '@shared/services/message.service';
 import firebase from 'firebase/compat/app';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { UserService } from '../../../../shared/services/user.service';
+import { UserInfoService } from './user-info.service';
 
 @Component({
   selector: 'app-user-info',
@@ -19,25 +21,20 @@ export class UserInfoComponent implements OnDestroy {
   public hide: boolean = true;
   public name?: string | null;
   public email?: string | null;
-  public photoUrl?: string | null;
-  public oroginalPhotoUrl?: string | null;
 
   form: FormGroup = new FormGroup({});
-  photoForm: FormGroup = new FormGroup({});
-  photoControl: FormControl = new FormControl(null, [
-    Validators.pattern(this.globalService.regexUrl)
-  ]);
   usernameControl: FormControl = new FormControl(null, [Validators.required]);
+  emailControl: FormControl = new FormControl(null, [Validators.required, Validators.email]);
 
   private subscriptions: Subscription[] = [];
 
   constructor(
     public loadersService: LoadersService,
     private dialogService: DialogService,
-    private globalService: GlobalService,
-    private userService: UserService,
+    private userInfoService: UserInfoService,
+    private meService: MeService,
     private messageService: MessageService,
-    private commonService: CommonService
+    private router: Router
   ) {
     this.setForms();
     this.subscribeToUser();
@@ -55,7 +52,7 @@ export class UserInfoComponent implements OnDestroy {
     this.dialogService
       .openDialog(dialogModel)
       .pipe(first())
-      .subscribe(() => this.userService.logout());
+      .subscribe(() => this.logout());
   }
 
   onDelete() {
@@ -66,15 +63,14 @@ export class UserInfoComponent implements OnDestroy {
     this.dialogService
       .openDialog(dialogModel)
       .pipe(first())
-      .subscribe(() => this.userService.deleteUser());
+      .subscribe(() => this.delete());
   }
 
   async onSubmit() {
     if (this.form.valid) {
       this.loadersService.userInfoLoading = true;
-
       try {
-        await this.updateUsername();
+        await this.updateProfile();
         this.messageService.showOk('Profile updated successfully');
       } catch (e: any) {
         console.error(e);
@@ -84,53 +80,41 @@ export class UserInfoComponent implements OnDestroy {
     }
   }
 
-  onPhotoUrlChanged(event: any) {
-    if (this.photoControl.valid) {
-      this.photoUrl = event.target.value;
-    }
-  }
-
-  photoUrlHasChanged(): boolean {
-    return this.photoUrl !== this.oroginalPhotoUrl;
-  }
-
-  async onSubmitPhoto() {
-    if (this.photoForm.valid) {
-      this.loadersService.userInfoLoading = true;
-      await this.updatePhoto();
-      this.loadersService.userInfoLoading = false;
-    }
-  }
-
-  async onDeleteImage() {
-    if (!this.photoUrlHasChanged()) {
-      await this.userService.updateImage(null);
-    }
-  }
-
-  private async updatePhoto() {
+  private async logout() {
+    this.loadersService.userInfoLoading = true;
     try {
-      if (this.photoUrlHasChanged()) {
-        await this.userService.updateImage(this.photoUrl || null);
-      }
+      await this.userInfoService.logout();
+      this.messageService.showOk('Logged out successfully');
+      this.router.navigate(['/']);
     } catch (e: any) {
       console.error(e);
       this.messageService.showError(e);
     }
+    this.loadersService.userInfoLoading = false;
   }
 
-  private async updateUsername() {
-    const username = this.usernameControl.value;
-    if (username !== this.name) {
-      await this.userService.updateUsername(username);
+  private async delete() {
+    this.loadersService.userInfoLoading = true;
+    try {
+      await this.userInfoService.deleteUser();
+      this.messageService.showOk('User deleted successfully');
+      this.router.navigate(['/']);
+    } catch (e: any) {
+      console.error(e);
+      this.messageService.showError(e);
     }
+    this.loadersService.userInfoLoading = false;
   }
 
-  private setUserInfo(user: firebase.User | null) {
-    this.setUsername(user?.displayName || null);
-    this.email = user?.email || null;
-    this.photoUrl = this.userService.imageUrl;
-    this.oroginalPhotoUrl = this.userService.imageUrl;
+  private async updateProfile() {
+    const username = this.usernameControl.value;
+    const email = this.emailControl.value;
+    await this.userInfoService.updateProfile(username, email);
+  }
+
+  private setUserInfo(user: User | null) {
+    this.setUsername(user?.username || null);
+    this.setEmail(user?.email || null);
   }
 
   private setUsername(username: string | null) {
@@ -138,20 +122,25 @@ export class UserInfoComponent implements OnDestroy {
     this.usernameControl.setValue(this.name);
   }
 
-  private subscribeToUser() {
-    const sub: Subscription = this.userService.$user.subscribe((user: firebase.User | null) =>
+  private setEmail(email: string | null) {
+    this.email = email;
+    this.emailControl.setValue(this.email);
+  }
+
+  private async subscribeToUser() {
+    const sub: Subscription = this.meService.$user.subscribe((user: User | null) =>
       this.setUserInfo(user)
     );
     this.subscriptions.push(sub);
+
+    const user: User | null = await this.meService.getMe();
+    this.setUserInfo(user);
   }
 
   private setForms() {
     this.form = new FormGroup({
-      username: this.usernameControl
-    });
-
-    this.photoForm = new FormGroup({
-      photoUrl: this.photoControl
+      username: this.usernameControl,
+      email: this.emailControl
     });
   }
 }
