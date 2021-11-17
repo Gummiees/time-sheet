@@ -36,11 +36,12 @@ export class UserInfoService {
   }
 
   async deleteUser() {
-    await this.userService.deleteUser();
     await this.meService.deleteUser();
+    await this.userService.deleteUser();
   }
 
   async logout() {
-    await this.userService.logout();
+    this.meService.logout();
+    this.userService.logout();
   }
 }

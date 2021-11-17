@@ -19,9 +19,14 @@ export class SignInService {
         break;
     }
 
-    const user: firebase.User | null = await this.userService.user;
-    if (user) {
-      this.meService.createUser(user);
+    const userAuth: firebase.User | null = await this.userService.user;
+    if (userAuth) {
+      const userExists: boolean = await this.meService.userExists(userAuth);
+      if (userExists) {
+        this.meService.login(userAuth);
+      } else {
+        this.meService.createUser(userAuth);
+      }
     }
   }
 }
