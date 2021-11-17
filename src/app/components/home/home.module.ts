@@ -6,14 +6,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@shared/shared.module';
-import { InputTimeRoutingModule } from './input-time.routes';
-import { InputTimeComponent } from './input-time.component';
+import { CalendarModule } from 'primeng/calendar';
+import { HomeFormComponent } from './form/home-form.component';
+import { HomeComponent } from './home.component';
+import { HomeRoutingModule } from './home.routes';
 
 @NgModule({
-  declarations: [InputTimeComponent],
+  declarations: [HomeComponent, HomeFormComponent],
   imports: [
+    CalendarModule,
     SharedModule,
-    InputTimeRoutingModule,
+    HomeRoutingModule,
     AngularFireAuthModule,
     MatIconModule,
     MatButtonModule,
@@ -24,4 +27,4 @@ import { InputTimeComponent } from './input-time.component';
   exports: [],
   providers: []
 })
-export class InputTimeModule {}
+export class HomeModule {}

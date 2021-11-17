@@ -1,0 +1,5 @@
+.home {
+  & > div {
+    @apply p-4 m-4 rounded-md shadow-md bg-white flex items-center justify-center;
+  }
+}
