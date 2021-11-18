@@ -35,7 +35,6 @@ export class HomeComponent implements OnDestroy {
     try {
       const sub: Subscription = this.typeService.listItems().subscribe((types) => {
         this.types = types;
-        this.loadersService.typeLoading = false;
       });
       this.subscriptions.push(sub);
     } catch (e: any) {

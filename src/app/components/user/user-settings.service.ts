@@ -4,7 +4,7 @@ import { MeService } from '@shared/services/me.service';
 import { UserService } from '@shared/services/user.service';
 
 @Injectable()
-export class UserInfoService {
+export class UserSettingsService {
   constructor(private userService: UserService, private meService: MeService) {}
 
   async updateProfile(username: string | null, email: string | null) {

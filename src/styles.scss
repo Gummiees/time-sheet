@@ -99,3 +99,7 @@ p-table p-celleditor mat-form-field .mat-form-field-infix {
 .invert-svg-color {
   @include invert-svg-color;
 }
+
+.mat-progress-bar-fill::after {
+  @apply bg-pink-500;
+}
