@@ -14,7 +14,7 @@ export class HomeFormComponent {
   @Input() types: Type[] = [];
   form: FormGroup = new FormGroup({});
   typeControl: FormControl = new FormControl(null, [Validators.required]);
-  dateControl: FormControl = new FormControl(new Date(), [Validators.required]);
+  dateControl: FormControl = new FormControl(this.currentDate(), [Validators.required]);
   constructor(
     private loadersService: LoadersService,
     private timeSheetService: TimeSheetService,
@@ -58,5 +58,22 @@ export class HomeFormComponent {
       type: this.dateControl,
       date: this.dateControl
     });
+  }
+
+  private currentDate(): Date {
+    const date: Date = new Date();
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      this.getMinutes(date)
+    );
+  }
+
+  private getMinutes(date: Date): number {
+    return date.getMinutes() % 15 === 0
+      ? date.getMinutes()
+      : date.getMinutes() - (date.getMinutes() % 15);
   }
 }
