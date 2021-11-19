@@ -38,32 +38,29 @@ export class HomeComponent implements OnDestroy {
     return this.loadersService.typeLoading || this.loadersService.timeSheetLoading;
   }
 
-  private async subscribeToTypes() {
-    this.loadersService.typeLoading = true;
-    try {
-      const sub: Subscription = this.typeService.listItems().subscribe((types) => {
-        this.types = types;
-      });
-      this.subscriptions.push(sub);
-    } catch (e: any) {
-      this.messageService.showLocalError(e);
-      console.error(e);
-    } finally {
-      this.loadersService.typeLoading = false;
-    }
+  private subscribeToTypes() {
+    const sub: Subscription = this.typeService.listItems().subscribe((types) => {
+      this.types = types;
+    });
+    this.subscriptions.push(sub);
   }
 
   private async subscribeToTimeSheet() {
-    const user: firebase.User | null = await this.userService.user;
-    if (user) {
-      const sub: Subscription = this.timeSheetService
-        .listItems(user)
-        .subscribe((entries: TimeSheet[]) => {
-          this.entries = entries;
-        });
-      this.subscriptions.push(sub);
-    } else {
-      this.messageService.showLocalError('You must be logged in to view categories');
+    this.loadersService.timeSheetLoading = true;
+    try {
+      const user: firebase.User | null = await this.userService.user;
+      if (user) {
+        const sub: Subscription = this.timeSheetService
+          .listItems(user)
+          .subscribe((entries: TimeSheet[]) => {
+            this.entries = entries;
+          });
+        this.subscriptions.push(sub);
+      } else {
+        this.messageService.showLocalError('You must be logged in to view categories');
+      }
+    } finally {
+      this.loadersService.timeSheetLoading = false;
     }
   }
 }
