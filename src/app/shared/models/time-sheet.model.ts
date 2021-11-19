@@ -1,6 +1,6 @@
 import { BaseUser } from './base.model';
 
 export interface TimeSheet extends BaseUser {
-  date: string;
+  date: Date;
   typeId?: string;
 }
