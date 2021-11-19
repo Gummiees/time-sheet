@@ -28,12 +28,16 @@ export class TypeService {
       .snapshotChanges()
       .pipe(
         map((items: DocumentChangeAction<Type>[]) => {
-          return items.map((item: DocumentChangeAction<Type>) => {
-            return {
-              ...item.payload.doc.data(),
-              id: item.payload.doc.id
-            };
-          });
+          return items
+            .map((item: DocumentChangeAction<Type>) => {
+              return {
+                ...item.payload.doc.data(),
+                id: item.payload.doc.id
+              };
+            })
+            .sort((a: Type, b: Type) => {
+              return a.name.localeCompare(b.name);
+            });
         })
       );
   }

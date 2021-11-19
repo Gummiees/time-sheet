@@ -19,7 +19,9 @@ export class BaseService<T extends BaseUser> {
 
   protected getCollection(user: firebase.User): AngularFirestoreCollection<T> {
     if (!this.collection) {
-      this.collection = this.firestore.collection<T>(`${this.collectionName}`);
+      this.collection = this.firestore.collection<T>(`${this.collectionName}`, (ref) =>
+        ref.where('userId', '==', user.uid)
+      );
     }
     return this.collection;
   }
