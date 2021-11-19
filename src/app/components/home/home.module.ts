@@ -9,13 +9,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
+import { DayComponent } from './day/day.component';
 import { HomeFormComponent } from './form/home-form.component';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routes';
 import { WeekComponent } from './week/week.component';
 
 @NgModule({
-  declarations: [HomeComponent, HomeFormComponent, WeekComponent],
+  declarations: [HomeComponent, HomeFormComponent, WeekComponent, DayComponent],
   imports: [
     CalendarModule,
     SharedModule,

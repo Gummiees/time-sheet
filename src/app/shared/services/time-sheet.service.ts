@@ -18,15 +18,21 @@ export class TimeSheetService extends BaseService<TimeSheet> {
   public listItems(user: firebase.User): Observable<TimeSheet[]> {
     return super.listItems(user).pipe(
       map((items: TimeSheet[]) => {
-        return items.sort((a, b) => {
-          if (a.date < b.date) {
-            return -1;
-          } else if (a.date > b.date) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
+        return items
+          .map((item) => {
+            const obj = item.date as any;
+            item.date = new Date(obj.toMillis());
+            return item;
+          })
+          .sort((a, b) => {
+            if (a.date < b.date) {
+              return -1;
+            } else if (a.date > b.date) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
       })
     );
   }
