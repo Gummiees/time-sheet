@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { TimeSheet } from '@shared/models/time-sheet.model';
 import { UserService } from '@shared/services/user.service';
+import firebase from 'firebase/compat/app';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -10,5 +13,21 @@ import { BaseService } from './base.service';
 export class TimeSheetService extends BaseService<TimeSheet> {
   constructor(protected firestore: AngularFirestore, protected userService: UserService) {
     super('time-sheet', firestore, userService);
+  }
+
+  public listItems(user: firebase.User): Observable<TimeSheet[]> {
+    return super.listItems(user).pipe(
+      map((items: TimeSheet[]) => {
+        return items.sort((a, b) => {
+          if (a.date < b.date) {
+            return -1;
+          } else if (a.date > b.date) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      })
+    );
   }
 }
