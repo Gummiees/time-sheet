@@ -21,7 +21,8 @@ module.exports = {
         }
       },
       spacing: {
-        auto: 'auto'
+        auto: 'auto',
+        'mat-select': '1.34375em'
       },
       transitionProperty: {
         padding: 'padding',
