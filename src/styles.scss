@@ -103,3 +103,7 @@ p-table p-celleditor mat-form-field .mat-form-field-infix {
 .mat-progress-bar-fill::after {
   @apply bg-pink-500;
 }
+
+p-calendar.mat-calendar > span {
+  @apply pb-mat-select;
+}

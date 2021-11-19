@@ -5,6 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
 import { HomeFormComponent } from './form/home-form.component';
@@ -20,6 +21,7 @@ import { HomeRoutingModule } from './home.routes';
     AngularFireAuthModule,
     MatIconModule,
     MatButtonModule,
+    MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
     MatDividerModule
