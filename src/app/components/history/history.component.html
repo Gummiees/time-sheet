@@ -7,7 +7,7 @@
   editMode="row"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
   [rows]="25"
-  [rowsPerPageOptions]="[, 50, 100]"
+  [rowsPerPageOptions]="[25, 50, 100]"
   [paginator]="true"
   [showCurrentPageReport]="true"
   [value]="entries"
@@ -144,7 +144,6 @@
           *ngIf="!editing"
           mat-icon-button
           type="button"
-          type="submit"
           color="warn"
           aria-label="Delete"
           matTooltip="Delete"
