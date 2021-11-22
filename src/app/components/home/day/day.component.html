@@ -8,14 +8,22 @@
     [ngClass]="{
       'last-entry': isLastEntry(i)
     }"
+    [attr.aria-label]="getTypeName(entry.typeId) || 'unknown'"
+    [matTooltip]="getTypeName(entry.typeId) || 'unknown'"
+    matTooltipPosition="below"
   >
     <div class="text-lg type type-{{ getTypeName(entry.typeId) || 'unknown' }}">
       {{ entry.date | date: 'HH:mm' }}
     </div>
     <span *ngIf="isCheckin(entry.typeId)" class="text-lg daily-separator"> - </span>
   </div>
-  <div *ngIf="!lastCheckoutExists()">
-    <div class="text-lg type type-checkout">
+  <div
+    *ngIf="!lastCheckoutExists()"
+    aria-label="Current time"
+    matTooltip="Current time"
+    matTooltipPosition="below"
+  >
+    <div class="text-lg type type-missing">
       {{ now | date: 'HH:mm' }}
     </div>
   </div>
