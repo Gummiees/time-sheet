@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from '@shared/shared.module';
 import { CalendarModule } from 'primeng/calendar';
 import { TableModule } from 'primeng/table';
@@ -29,7 +30,8 @@ import { WeekComponent } from './week/week.component';
     MatFormFieldModule,
     MatInputModule,
     MatDividerModule,
-    TableModule
+    TableModule,
+    MatTooltipModule
   ],
   exports: [],
   providers: [HomeService]
