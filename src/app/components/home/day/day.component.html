@@ -1,1 +1,22 @@
 <h1 class="text-center">Daily timer: {{ getDiffString() }}</h1>
+<div class="flex items-center justify-center daily-entries">
+  <div
+    *ngFor="let entry of entries; let i = index"
+    class="flex items-center justify-center parent-type type-{{
+      getTypeName(entry.typeId) || 'unknown'
+    }}"
+    [ngClass]="{
+      'last-entry': isLastEntry(i)
+    }"
+  >
+    <div class="text-lg type type-{{ getTypeName(entry.typeId) || 'unknown' }}">
+      {{ entry.date | date: 'HH:mm' }}
+    </div>
+    <span *ngIf="isCheckin(entry.typeId)" class="text-lg daily-separator"> - </span>
+  </div>
+  <div *ngIf="!lastCheckoutExists()">
+    <div class="text-lg type type-checkout">
+      {{ now | date: 'HH:mm' }}
+    </div>
+  </div>
+</div>

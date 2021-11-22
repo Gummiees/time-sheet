@@ -75,7 +75,7 @@ export class HomeService {
     return diff;
   }
 
-  public needsInterval(types: Type[], entries: TimeSheet[]): boolean {
+  public lastCheckoutExists(types: Type[], entries: TimeSheet[]): boolean {
     const checkins: TimeSheet[] = this.getEntriesByType(TypeName.checkin, types, entries);
     const checkouts: TimeSheet[] = this.getEntriesByType(TypeName.checkout, types, entries);
     let allCheckinsHaveCheckouts: boolean = true;
@@ -88,7 +88,7 @@ export class HomeService {
         return;
       }
     });
-    return !allCheckinsHaveCheckouts && checkins.length > 0;
+    return !checkins.length || allCheckinsHaveCheckouts;
   }
 
   private getEntriesByType(typeName: TypeName, types: Type[], entries: TimeSheet[]): TimeSheet[] {

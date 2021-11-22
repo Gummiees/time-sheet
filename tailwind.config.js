@@ -22,6 +22,9 @@ module.exports = {
       },
       spacing: {
         auto: 'auto',
+        '1px': '1px',
+        '2px': '2px',
+        '3px': '3px',
         'mat-select': '1.34375em'
       },
       transitionProperty: {

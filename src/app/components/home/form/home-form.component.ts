@@ -59,7 +59,7 @@ export class HomeFormComponent implements OnDestroy {
       typeId: this.typeControl.value,
       date: this.dateControl.value
     };
-    return await this.timeSheetService.createItem(entry);
+    return this.timeSheetService.createItem(entry);
   }
 
   private setForms() {

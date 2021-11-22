@@ -6,6 +6,7 @@
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
 @import 'theme/mixins.scss';
+@import 'theme/types.scss';
 
 body {
   margin: 0;
@@ -84,11 +85,6 @@ button.flex.mat-button-base .mat-button-wrapper {
 
 body .cdk-overlay-pane {
   max-width: 90vw !important;
-}
-
-p-table p-celleditor mat-form-field .mat-form-field-infix {
-  border-top: 0 !important;
-  padding: 0 !important;
 }
 
 .p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon.pi-check::before {
