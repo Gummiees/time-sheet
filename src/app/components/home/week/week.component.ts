@@ -95,7 +95,10 @@ export class WeekComponent implements OnDestroy {
 
   private setIntervalDiff() {
     if (!this.intervalFunction) {
-      this.intervalFunction = setInterval(() => (this.diff += 1000), 1000);
+      this.intervalFunction = setInterval(
+        () => (this.diff += this.homeService.updateInterval),
+        this.homeService.updateInterval
+      );
     }
   }
 

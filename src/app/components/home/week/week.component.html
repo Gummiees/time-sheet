@@ -26,17 +26,19 @@
       <td pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <p-calendar
-              appendTo="body"
-              class="mat-calendar ml-2"
-              dateFormat="dd/mm/yy"
-              hourFormat="24"
-              [showTime]="true"
-              [showWeek]="true"
-              [stepMinute]="15"
-              [showButtonBar]="true"
-              [(ngModel)]="item.date"
-            ></p-calendar>
+            <div class="flex items-center">
+              <p-calendar
+                appendTo="body"
+                class="ml-2"
+                dateFormat="dd/mm/yy"
+                hourFormat="24"
+                [showTime]="true"
+                [showWeek]="true"
+                [stepMinute]="15"
+                [showButtonBar]="true"
+                [(ngModel)]="item.date"
+              ></p-calendar>
+            </div>
           </ng-template>
           <ng-template pTemplate="output">
             {{ item.date | date: 'dd/MM/yyyy HH:mm' }}
