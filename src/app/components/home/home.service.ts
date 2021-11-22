@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class HomeService {
   private types: Type[] = [];
+  public updateInterval: number = 60000;
   private entries: TimeSheet[] = [];
   public types$: BehaviorSubject<Type[]> = new BehaviorSubject<Type[]>(this.types || []);
   public entries$: BehaviorSubject<TimeSheet[]> = new BehaviorSubject<TimeSheet[]>(
@@ -29,7 +30,7 @@ export class HomeService {
 
   public getDiffString(diff: number): string {
     const duration: any = moment.duration(diff);
-    return `${duration.get('hours')}H ${duration.get('minutes')}m ${duration.get('seconds')}s`;
+    return `${duration.get('hours')}H ${duration.get('minutes')}m`;
   }
 
   public isToday(date: Date) {

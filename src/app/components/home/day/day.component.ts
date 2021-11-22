@@ -69,7 +69,10 @@ export class DayComponent implements OnDestroy {
 
   private setIntervalDiff() {
     if (!this.intervalFunction) {
-      this.intervalFunction = setInterval(() => (this.diff += 1000), 1000);
+      this.intervalFunction = setInterval(
+        () => (this.diff += this.homeService.updateInterval),
+        this.homeService.updateInterval
+      );
     }
   }
 
@@ -107,7 +110,10 @@ export class DayComponent implements OnDestroy {
 
   private setIntervalNow() {
     if (!this.intervalNow) {
-      this.intervalNow = setInterval(() => (this.now = new Date()), 1000);
+      this.intervalNow = setInterval(
+        () => (this.now = new Date()),
+        this.homeService.updateInterval
+      );
     }
   }
 }
