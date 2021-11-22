@@ -13,6 +13,7 @@ import { DayComponent } from './day/day.component';
 import { HomeFormComponent } from './form/home-form.component';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routes';
+import { HomeService } from './home.service';
 import { WeekComponent } from './week/week.component';
 
 @NgModule({
@@ -31,6 +32,6 @@ import { WeekComponent } from './week/week.component';
     TableModule
   ],
   exports: [],
-  providers: []
+  providers: [HomeService]
 })
 export class HomeModule {}

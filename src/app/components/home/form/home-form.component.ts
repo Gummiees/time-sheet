@@ -1,26 +1,35 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TimeSheet } from '@shared/models/time-sheet.model';
 import { Type } from '@shared/models/type.model';
 import { LoadersService } from '@shared/services/loaders.service';
 import { MessageService } from '@shared/services/message.service';
 import { TimeSheetService } from '@shared/services/time-sheet.service';
+import { Subscription } from 'rxjs';
+import { HomeService } from '../home.service';
 
 @Component({
   selector: 'app-home-form',
   templateUrl: './home-form.component.html'
 })
-export class HomeFormComponent {
-  @Input() types: Type[] = [];
-  form: FormGroup = new FormGroup({});
-  typeControl: FormControl = new FormControl(null, [Validators.required]);
-  dateControl: FormControl = new FormControl(this.currentDate(), [Validators.required]);
+export class HomeFormComponent implements OnDestroy {
+  public types: Type[] = [];
+  public form: FormGroup = new FormGroup({});
+  public typeControl: FormControl = new FormControl(null, [Validators.required]);
+  public dateControl: FormControl = new FormControl(this.currentDate(), [Validators.required]);
+  private subscriptions: Subscription[] = [];
   constructor(
     private loadersService: LoadersService,
+    private homeService: HomeService,
     private timeSheetService: TimeSheetService,
     private messageService: MessageService
   ) {
     this.setForms();
+    this.subscribeToTypes();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   public isLoading(): boolean {
@@ -75,5 +84,12 @@ export class HomeFormComponent {
     return date.getMinutes() % 15 === 0
       ? date.getMinutes()
       : date.getMinutes() - (date.getMinutes() % 15);
+  }
+
+  private subscribeToTypes() {
+    const sub: Subscription = this.homeService.types$.subscribe((types) => {
+      this.types = [...types];
+    });
+    this.subscriptions.push(sub);
   }
 }
