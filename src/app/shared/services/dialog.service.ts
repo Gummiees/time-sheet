@@ -1,6 +1,6 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   BasicDialogComponent,
   BasicDialogData
@@ -15,7 +15,7 @@ import { filter, first } from 'rxjs/operators';
 export class DialogService {
   constructor(private dialog: MatDialog) {}
 
-  openDialog(model: BasicDialogModel): Observable<void> {
+  openDialog(model: BasicDialogModel, includeFalses?: boolean): Observable<void> {
     const data: BasicDialogData = {
       header: model.header,
       body: model.body
@@ -27,7 +27,7 @@ export class DialogService {
 
     return dialogRef.afterClosed().pipe(
       first(),
-      filter((result) => !!result)
+      filter((result) => includeFalses || !!result)
     );
   }
 
