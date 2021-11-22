@@ -17,7 +17,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Date</th>
-      <th>Type</th>
+      <th class="text-center">Type</th>
       <th class="text-center">Actions</th>
     </tr>
   </ng-template>
@@ -46,7 +46,7 @@
       <td pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="flex items-center justify-center">
               <mat-label>Entry type</mat-label>
               <mat-select [(ngModel)]="item.typeId" required>
                 <mat-option *ngFor="let type of types" [value]="type.id">
@@ -56,7 +56,11 @@
             </mat-form-field>
           </ng-template>
           <ng-template pTemplate="output">
-            {{ getTypeName(item.typeId) || 'unknown' }}
+            <div class="flex items-center justify-center">
+              <div [class]="'type type-' + getTypeName(item.typeId)">
+                {{ getTypeName(item.typeId) || 'unknown' }}
+              </div>
+            </div>
           </ng-template>
         </p-cellEditor>
       </td>

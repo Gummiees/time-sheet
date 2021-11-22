@@ -102,10 +102,10 @@ export class WeekComponent implements OnDestroy {
   private getDiff() {
     if (this.entriesLoaded && this.typesLoaded && this.types.length > 0) {
       this.diff = this.homeService.setTotalTime(this.types, this.entries);
-      if (this.homeService.needsInterval(this.types, this.entries)) {
-        this.setIntervalDiff();
-      } else {
+      if (this.homeService.lastCheckoutExists(this.types, this.entries)) {
         this.clearIntervalDiff();
+      } else {
+        this.setIntervalDiff();
       }
     }
   }
