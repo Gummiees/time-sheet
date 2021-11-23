@@ -1,5 +1,5 @@
 <h1 class="text-center">Daily timer: {{ getDiffString() }}</h1>
-<div class="flex items-center justify-center daily-entries">
+<div class="flex items-center justify-center flex-wrap daily-entries">
   <div
     *ngFor="let entry of entries; let i = index"
     class="flex items-center justify-center parent-type type-{{
