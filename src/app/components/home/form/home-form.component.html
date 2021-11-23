@@ -9,20 +9,23 @@
     <mat-error *ngIf="typeControl.hasError('required')">Please choose a type</mat-error>
   </mat-form-field>
   <p-calendar
-    class="mat-calendar ml-2"
+    class="mat-calendar md:ml-2"
     dateFormat="dd/mm/yy"
     hourFormat="24"
+    appendTo="body"
+    [showIcon]="true"
     [showTime]="true"
     [showWeek]="true"
     [stepMinute]="15"
     [showButtonBar]="true"
+    [touchUI]="commonService.isMobileDevice()"
     [formControl]="dateControl"
   ></p-calendar>
   <button
     mat-raised-button
     type="submit"
     color="primary"
-    class="ml-2 mb-mat-select"
+    class="md:ml-2 mb-mat-select"
     [disabled]="isDisabled()"
   >
     <span>Create entry</span>

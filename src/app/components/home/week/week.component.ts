@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { BasicDialogModel } from '@shared/models/dialog.model';
 import { TimeSheet } from '@shared/models/time-sheet.model';
 import { Type } from '@shared/models/type.model';
+import { CommonService } from '@shared/services/common.service';
 import { DialogService } from '@shared/services/dialog.service';
 import { LoadersService } from '@shared/services/loaders.service';
 import { MessageService } from '@shared/services/message.service';
@@ -25,6 +26,7 @@ export class WeekComponent implements OnDestroy {
   private typesLoaded: boolean = false;
   private clonedEntries: { [s: string]: TimeSheet } = {};
   constructor(
+    public commonService: CommonService,
     private loadersService: LoadersService,
     private homeService: HomeService,
     private timeSheetService: TimeSheetService,
