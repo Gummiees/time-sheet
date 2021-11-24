@@ -1,12 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
 import { BasicDialogModel } from '@shared/models/dialog.model';
-import { TimeSheet } from '@shared/models/time-sheet.model';
+import { TimeSheet, TimeSheetTable } from '@shared/models/time-sheet.model';
 import { Type } from '@shared/models/type.model';
 import { CommonService } from '@shared/services/common.service';
 import { DialogService } from '@shared/services/dialog.service';
 import { LoadersService } from '@shared/services/loaders.service';
 import { MessageService } from '@shared/services/message.service';
 import { TimeSheetService } from '@shared/services/time-sheet.service';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { HomeService } from '../home.service';
@@ -18,13 +19,15 @@ import { HomeService } from '../home.service';
 export class WeekComponent implements OnDestroy {
   public types: Type[] = [];
   public entries: TimeSheet[] = [];
+  public tableEntries: TimeSheetTable[] = [];
   public today: number = Date.now();
   private diff: number = 0;
+  private dailyDiffs: { day: string; diff: number }[] = [];
   private subscriptions: Subscription[] = [];
   private intervalFunction: any;
   private entriesLoaded: boolean = false;
   private typesLoaded: boolean = false;
-  private clonedEntries: { [s: string]: TimeSheet } = {};
+  private clonedEntries: { [s: string]: TimeSheetTable } = {};
   constructor(
     public commonService: CommonService,
     private loadersService: LoadersService,
@@ -50,34 +53,41 @@ export class WeekComponent implements OnDestroy {
     return this.homeService.getDiffString(this.diff);
   }
 
+  public getDiffStringItem(item: TimeSheetTable): string {
+    const diff: number =
+      this.dailyDiffs.find((diff) => moment(diff.day, 'DD/MM/YYYY').isSame(item.date, 'day'))
+        ?.diff ?? 0;
+    return this.homeService.getDiffString(diff);
+  }
+
   public getTypeName(typeId: string): string | undefined {
     return this.types.find((type) => type.id === typeId)?.name;
   }
 
-  public async onDelete(entry: TimeSheet) {
+  public async onDelete(entry: TimeSheetTable) {
     const dialogModel: BasicDialogModel = {
       body: 'Are you sure you want to delete the entry?'
     };
     this.dialogService
       .openDialog(dialogModel)
       .pipe(first())
-      .subscribe(() => this.delete(entry));
+      .subscribe(() => this.delete(this.mapTableEntry(entry)));
   }
 
-  public onRowEditInit(entry: TimeSheet) {
+  public onRowEditInit(entry: TimeSheetTable) {
     if (!entry.id) {
       return;
     }
     this.clonedEntries[entry.id] = { ...entry };
   }
 
-  public async onRowEditSave(entry: TimeSheet) {
+  public async onRowEditSave(entry: TimeSheetTable) {
     if (!entry.id) {
       return;
     }
     this.loadersService.timeSheetLoading = true;
     try {
-      await this.timeSheetService.updateItem(entry);
+      await this.timeSheetService.updateItem(this.mapTableEntry(entry));
       this.messageService.showOk('Entry saved successfully');
       delete this.clonedEntries[entry.id];
     } catch (e: any) {
@@ -87,7 +97,7 @@ export class WeekComponent implements OnDestroy {
     this.loadersService.timeSheetLoading = false;
   }
 
-  public onRowEditCancel(entry: TimeSheet, rowIndex: number) {
+  public onRowEditCancel(entry: TimeSheetTable, rowIndex: number) {
     if (!entry.id) {
       return;
     }
@@ -150,6 +160,7 @@ export class WeekComponent implements OnDestroy {
         this.entries = entries.filter((entry) => this.homeService.isCurrentWeek(entry.date));
         this.entriesLoaded = true;
         this.getDiff();
+        this.prepareTable();
       });
       this.subscriptions.push(sub);
     } catch (e) {
@@ -157,5 +168,41 @@ export class WeekComponent implements OnDestroy {
     } finally {
       this.loadersService.timeSheetLoading = false;
     }
+  }
+
+  private prepareTable() {
+    this.tableEntries = this.mapEntries(this.entries);
+    if (this.tableEntries.length === 0) {
+      return;
+    }
+    const days: Set<string> = new Set(this.tableEntries.map((entry) => entry.onlyDate));
+    this.dailyDiffs = [];
+    days.forEach((day) => {
+      const entries: TimeSheet[] = this.entries.filter((entry) =>
+        moment(day, 'DD/MM/YYYY').isSame(entry.date, 'day')
+      );
+      const diff: number = this.homeService.setTotalTime(this.types, entries);
+      this.dailyDiffs.push({ day, diff });
+    });
+  }
+
+  private mapEntries(entries: TimeSheet[]): TimeSheetTable[] {
+    return entries.map((entry) => this.mapEntry(entry));
+  }
+
+  private mapEntry(entry: TimeSheet): TimeSheetTable {
+    return {
+      ...entry,
+      onlyDate: moment(entry.date).format('DD/MM/YYYY')
+    };
+  }
+
+  private mapTableEntry(tableEntry: TimeSheetTable): TimeSheet {
+    return {
+      id: tableEntry.id,
+      userId: tableEntry.userId,
+      date: tableEntry.date,
+      typeId: tableEntry.typeId
+    };
   }
 }

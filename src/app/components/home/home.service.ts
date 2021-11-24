@@ -30,7 +30,7 @@ export class HomeService {
 
   public getDiffString(diff: number): string {
     const duration: any = moment.duration(diff);
-    return `${duration.get('hours')}H ${duration.get('minutes')}m`;
+    return `${duration.get('days') * 24 + duration.get('hours')}H ${duration.get('minutes')}m`;
   }
 
   public isToday(date: Date) {
@@ -55,8 +55,9 @@ export class HomeService {
     let diff: number = 0;
 
     checkins.forEach((checkin) => {
-      const checkout: TimeSheet | undefined = checkouts.find((out) =>
-        moment(checkin.date).isBefore(out.date)
+      const checkout: TimeSheet | undefined = checkouts.find(
+        (out) =>
+          moment(checkin.date).isSame(out.date, 'day') && moment(checkin.date).isBefore(out.date)
       );
       if (!checkout) {
         allCheckinsHaveCheckouts = false;
@@ -81,8 +82,9 @@ export class HomeService {
     const checkouts: TimeSheet[] = this.getEntriesByType(TypeName.checkout, types, entries);
     let allCheckinsHaveCheckouts: boolean = true;
     checkins.forEach((checkin) => {
-      const checkout: TimeSheet | undefined = checkouts.find((out) =>
-        moment(checkin.date).isBefore(out.date)
+      const checkout: TimeSheet | undefined = checkouts.find(
+        (out) =>
+          moment(checkin.date).isSame(out.date, 'day') && moment(checkin.date).isBefore(out.date)
       );
       if (!checkout) {
         allCheckinsHaveCheckouts = false;
