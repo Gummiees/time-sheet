@@ -16,12 +16,12 @@ export class MainComponent {
       label: 'History',
       link: 'history',
       icon: 'history'
-    },
-    {
-      label: 'Charts',
-      link: 'charts',
-      icon: 'insert_chart_outlined'
     }
+    // {
+    //   label: 'Charts',
+    //   link: 'charts',
+    //   icon: 'insert_chart_outlined'
+    // }
   ];
   constructor() {}
 }
