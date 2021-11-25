@@ -31,7 +31,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-item let-editing="editing" let-ri="rowIndex">
     <tr [pEditableRow]="item">
-      <td pEditableColumn class="w-1/3">
+      <td class="w-1/3">
         <p-cellEditor>
           <ng-template pTemplate="input">
             <div class="flex items-center">
@@ -54,7 +54,7 @@
           </ng-template>
         </p-cellEditor>
       </td>
-      <td pEditableColumn class="w-1/3">
+      <td class="w-1/3">
         <p-cellEditor>
           <ng-template pTemplate="input">
             <mat-form-field appearance="fill" class="flex items-center justify-center">
