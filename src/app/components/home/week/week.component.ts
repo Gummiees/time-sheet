@@ -22,7 +22,7 @@ export class WeekComponent implements OnDestroy {
   public tableEntries: TimeSheetTable[] = [];
   public today: number = Date.now();
   private diff: number = 0;
-  private dailyDiffs: { day: string; diff: number }[] = [];
+  private daily: { day: string; diff: number; isWrong: boolean }[] = [];
   private subscriptions: Subscription[] = [];
   private intervalFunction: any;
   private entriesLoaded: boolean = false;
@@ -54,10 +54,12 @@ export class WeekComponent implements OnDestroy {
   }
 
   public getDiffStringItem(item: TimeSheetTable): string {
-    const diff: number =
-      this.dailyDiffs.find((diff) => moment(diff.day, 'DD/MM/YYYY').isSame(item.date, 'day'))
-        ?.diff ?? 0;
+    const diff: number = this.getDaily(item)?.diff ?? 0;
     return this.homeService.getDiffString(diff);
+  }
+
+  public isDayWrong(item: TimeSheetTable): boolean {
+    return this.getDaily(item)?.isWrong || false;
   }
 
   public getTypeName(typeId: string): string | undefined {
@@ -176,13 +178,14 @@ export class WeekComponent implements OnDestroy {
       return;
     }
     const days: Set<string> = new Set(this.tableEntries.map((entry) => entry.onlyDate));
-    this.dailyDiffs = [];
+    this.daily = [];
     days.forEach((day) => {
       const entries: TimeSheet[] = this.entries.filter((entry) =>
         moment(day, 'DD/MM/YYYY').isSame(entry.date, 'day')
       );
       const diff: number = this.homeService.setTotalTime(this.types, entries);
-      this.dailyDiffs.push({ day, diff });
+      const isWrong: boolean = !this.homeService.lastCheckoutExists(this.types, entries);
+      this.daily.push({ day, diff, isWrong });
     });
   }
 
@@ -204,5 +207,11 @@ export class WeekComponent implements OnDestroy {
       date: tableEntry.date,
       typeId: tableEntry.typeId
     };
+  }
+
+  private getDaily(
+    item: TimeSheetTable
+  ): { day: string; diff: number; isWrong: boolean } | undefined {
+    return this.daily.find((diff) => moment(diff.day, 'DD/MM/YYYY').isSame(item.date, 'day'));
   }
 }
