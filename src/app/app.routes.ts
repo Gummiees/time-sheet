@@ -7,7 +7,7 @@ import {
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const redirectUnauthorizedToSignIn = () => redirectUnauthorizedTo(['sign-in']);
-const redirectLoggedInToMain = () => redirectLoggedInTo(['main']);
+const redirectLoggedInToHome = () => redirectLoggedInTo(['/']);
 
 const routes: Routes = [
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
   {
     path: 'sign-in',
     loadChildren: () => import('./components/sign-in/sign-in.module').then((m) => m.SignInModule),
-    ...canActivate(redirectLoggedInToMain)
+    ...canActivate(redirectLoggedInToHome)
   },
   { path: '**', redirectTo: 'main', pathMatch: 'full' }
 ];
