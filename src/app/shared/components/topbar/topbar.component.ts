@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { UserService } from '@shared/services/user.service';
 import firebase from 'firebase/compat/app';
 import { Subscription } from 'rxjs';
+import { default as buildInfo } from '../../../../../package.json';
 
 @Component({
   selector: 'app-topbar',
@@ -9,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class TopbarComponent implements OnDestroy {
   public username?: string | null;
-  public version: string = '0.0.1';
+  public version: string = buildInfo?.version || '0.0.1';
   private subscriptions: Subscription[] = [];
 
   constructor(private userService: UserService) {
