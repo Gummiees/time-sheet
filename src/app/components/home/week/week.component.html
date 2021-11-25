@@ -24,7 +24,14 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="groupheader" let-item>
-    <tr pRowGroupHeader class="text-xl">
+    <tr
+      pRowGroupHeader
+      class="text-xl"
+      [ngClass]="{ 'text-red-600 font-bold': isDayWrong(item) }"
+      matTooltip="This day is missing one or more checkouts"
+      [matTooltipDisabled]="!isDayWrong(item)"
+      matTooltipPosition="below"
+    >
       <td class="w-1/3" colspan="2"> {{ item.onlyDate }}</td>
       <td class="w-1/3 text-right">{{ getDiffStringItem(item) }}</td>
     </tr>
