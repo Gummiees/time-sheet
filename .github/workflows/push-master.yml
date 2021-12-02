@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
+      - name: Sign in npm
+        run: npm login --registry=https://npm.pkg.github.com
       - name: Install
         run: npm i
       - name: Build
