@@ -9,7 +9,7 @@ export class MainComponent {
   tabs: TabItem[] = [
     {
       label: 'Home',
-      link: '/',
+      link: 'home',
       icon: 'home'
     },
     {

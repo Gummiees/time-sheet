@@ -5,6 +5,7 @@
     [routerLink]="tabItem.link"
     routerLinkActive
     #rla="routerLinkActive"
+    [routerLinkActiveOptions]="{ exact: true }"
     [active]="rla.isActive"
   >
     <mat-icon>{{ tabItem.icon }}</mat-icon>
