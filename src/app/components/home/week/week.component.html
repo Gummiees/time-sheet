@@ -7,6 +7,7 @@
   editMode="row"
   rowGroupMode="subheader"
   groupRowsBy="onlyDate"
+  [groupRowsByOrder]="0"
   [value]="tableEntries"
   [loading]="isLoading()"
 >
@@ -32,7 +33,7 @@
       [matTooltipDisabled]="!isDayWrong(item)"
       matTooltipPosition="below"
     >
-      <td class="w-1/3" colspan="2"> {{ item.onlyDate }}</td>
+      <td class="w-1/3" colspan="2"> {{ item.onlyDate }} </td>
       <td class="w-1/3 text-right">{{ getDiffStringItem(item) }}</td>
     </tr>
   </ng-template>
