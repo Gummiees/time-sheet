@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { BasicDialogModel } from '@shared/models/dialog.model';
 import { TimeSheet } from '@shared/models/time-sheet.model';
@@ -8,6 +9,7 @@ import { MessageService } from '@shared/services/message.service';
 import { TimeSheetService } from '@shared/services/time-sheet.service';
 import { TypeService } from '@shared/services/type.service';
 import { UserService } from '@shared/services/user.service';
+import FileSaver from 'file-saver';
 import firebase from 'firebase/compat/app';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -22,6 +24,7 @@ export class HistoryComponent implements OnDestroy {
   public today: number = Date.now();
   private subscriptions: Subscription[] = [];
   private clonedEntries: { [s: string]: TimeSheet } = {};
+  private exportColumns = ['date', 'type'];
   constructor(
     private loadersService: LoadersService,
     private timeSheetService: TimeSheetService,
@@ -87,6 +90,62 @@ export class HistoryComponent implements OnDestroy {
     delete this.clonedEntries[entry.id];
   }
 
+  public async exportPdf() {
+    try {
+      const entries: string[][] = this.entries
+        .filter((entry) => entry.typeId)
+        .map((entry) => [this.dateToString(entry.date), this.getTypeName(entry.typeId!)!]);
+
+      const jsPDF = await import('jspdf');
+      const doc = new jsPDF.default();
+
+      const autoTable = await import('jspdf-autotable');
+      autoTable.default(doc, { head: [this.exportColumns], body: entries });
+      doc.save('entries.pdf');
+    } catch (e) {}
+  }
+
+  public exportCSV() {
+    let csvFile = '';
+    this.generateDataForFiles().forEach((entry) => {
+      csvFile += `${entry.date};${entry.type};\n`;
+    });
+    this.saveAsCSV(csvFile);
+  }
+
+  public async exportExcel() {
+    try {
+      const xlsx = await import('xlsx');
+      const worksheet = xlsx.utils.json_to_sheet(this.generateDataForFiles());
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer);
+    } catch (e) {}
+  }
+
+  private saveAsCSV(buffer: any): void {
+    const data: Blob = new Blob([buffer], { type: 'text/csv;charset=utf-8;' });
+    FileSaver.saveAs(data, 'entries_export_.csv');
+  }
+
+  private saveAsExcelFile(buffer: any): void {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+    FileSaver.saveAs(data, 'entries_export.xlsx');
+  }
+
+  private generateDataForFiles(): { date: string; type: string }[] {
+    return this.entries
+      .filter((entry) => entry.typeId)
+      .map((entry) => {
+        return {
+          date: this.dateToString(entry.date),
+          type: this.getTypeName(entry.typeId!)!
+        };
+      });
+  }
+
   private async delete(entry: TimeSheet) {
     this.loadersService.timeSheetLoading = true;
     try {
@@ -120,5 +179,9 @@ export class HistoryComponent implements OnDestroy {
     } finally {
       this.loadersService.timeSheetLoading = false;
     }
+  }
+
+  private dateToString(date: Date): string {
+    return formatDate(date, 'yyyy-dd-MM HH:mm', 'en-US');
   }
 }
