@@ -16,6 +16,41 @@
   <ng-template pTemplate="caption">
     <div class="flex items-center justify-between">
       <div>History</div>
+      <div>
+        <button
+          mat-icon-button
+          type="button"
+          color="primary"
+          aria-label="CSV"
+          matTooltip="CSV"
+          matTooltipPosition="below"
+          (click)="exportCSV()"
+        >
+          <mat-icon>insert_drive_file</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          color="basic"
+          aria-label="Excel"
+          matTooltip="Excel"
+          matTooltipPosition="below"
+          (click)="exportExcel()"
+        >
+          <mat-icon>description</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          color="warn"
+          aria-label="PDF"
+          matTooltip="PDF"
+          matTooltipPosition="below"
+          (click)="exportPdf()"
+        >
+          <mat-icon>picture_as_pdf</mat-icon>
+        </button>
+      </div>
     </div>
   </ng-template>
   <ng-template pTemplate="header">
