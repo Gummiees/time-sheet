@@ -181,7 +181,7 @@ export class WeekComponent implements OnDestroy {
     this.daily = [];
     days.forEach((day) => {
       const entries: TimeSheet[] = this.entries.filter((entry) =>
-        moment(day, 'DD/MM/YYYY').isSame(entry.date, 'day')
+        moment(day, 'YYYY-MM-DD').isSame(entry.date, 'day')
       );
       const diff: number = this.homeService.setTotalTime(this.types, entries);
       const isWrong: boolean = !this.homeService.lastCheckoutExists(this.types, entries);
@@ -196,7 +196,7 @@ export class WeekComponent implements OnDestroy {
   private mapEntry(entry: TimeSheet): TimeSheetTable {
     return {
       ...entry,
-      onlyDate: moment(entry.date).format('DD/MM/YYYY')
+      onlyDate: moment(entry.date).format('YYYY-MM-DD')
     };
   }
 
@@ -212,6 +212,6 @@ export class WeekComponent implements OnDestroy {
   private getDaily(
     item: TimeSheetTable
   ): { day: string; diff: number; isWrong: boolean } | undefined {
-    return this.daily.find((diff) => moment(diff.day, 'DD/MM/YYYY').isSame(item.date, 'day'));
+    return this.daily.find((diff) => moment(diff.day, 'YYYY-MM-DD').isSame(item.date, 'day'));
   }
 }

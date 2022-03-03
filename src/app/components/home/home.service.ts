@@ -48,8 +48,12 @@ export class HomeService {
   }
 
   public setTotalTime(types: Type[], entries: TimeSheet[]): number {
-    const checkins: TimeSheet[] = this.getEntriesByType(TypeName.checkin, types, entries);
-    const checkouts: TimeSheet[] = this.getEntriesByType(TypeName.checkout, types, entries);
+    const checkins: TimeSheet[] = this.getEntriesByType(TypeName.checkin, types, entries).reverse();
+    const checkouts: TimeSheet[] = this.getEntriesByType(
+      TypeName.checkout,
+      types,
+      entries
+    ).reverse();
 
     let allCheckinsHaveCheckouts: boolean = true;
     let diff: number = 0;
