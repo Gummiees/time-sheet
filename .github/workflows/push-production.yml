@@ -2,7 +2,7 @@ name: Build project and deploy on Firebase Hosting
 'on':
   push:
     branches:
-      - main
+      - production
 jobs:
   build:
     name: Build project
