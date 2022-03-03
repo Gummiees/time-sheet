@@ -20,6 +20,7 @@ export class DayComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
   private entriesLoaded: boolean = false;
   private typesLoaded: boolean = false;
+  private reversedEntries: TimeSheet[] = [];
   constructor(private loadersService: LoadersService, private homeService: HomeService) {
     this.subscribeToTypes();
     this.subscribeToTimeSheet();
@@ -49,17 +50,17 @@ export class DayComponent implements OnDestroy {
   }
 
   public isLastEntry(i: number): boolean {
-    return this.entries.length - 1 === i;
+    return this.reversedEntries.length - 1 === i;
   }
 
   public lastCheckoutExists(): boolean {
-    return this.homeService.lastCheckoutExists(this.types, this.entries);
+    return this.homeService.lastCheckoutExists(this.types, this.reversedEntries);
   }
 
   private getDiff() {
     if (this.entriesLoaded && this.typesLoaded && this.types.length > 0) {
-      this.diff = this.homeService.setTotalTime(this.types, this.entries);
-      if (this.homeService.lastCheckoutExists(this.types, this.entries)) {
+      this.diff = this.homeService.setTotalTime(this.types, this.reversedEntries);
+      if (this.homeService.lastCheckoutExists(this.types, this.reversedEntries)) {
         this.clearIntervalDiff();
       } else {
         this.setIntervalDiff();
@@ -96,7 +97,8 @@ export class DayComponent implements OnDestroy {
     this.loadersService.timeSheetLoading = true;
     try {
       const sub: Subscription = this.homeService.entries$.subscribe((entries: TimeSheet[]) => {
-        this.entries = entries.filter((entry) => this.homeService.isToday(entry.date));
+        this.reversedEntries = entries.filter((entry) => this.homeService.isToday(entry.date));
+        this.entries = [...this.reversedEntries].reverse();
         this.entriesLoaded = true;
         this.getDiff();
       });
